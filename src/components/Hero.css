@@ -35,7 +35,7 @@
 .hero__lede {
   font-size: var(--text-21);
   line-height: 1.55;
-  color: rgba(246, 247, 243, 0.78);
+  color: rgba(246, 247, 243, 0.92);
   max-width: 34em;
 }
 
@@ -46,8 +46,8 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: var(--text-14);
-  color: rgba(246, 247, 243, 0.62);
+  font-size: 0.9375rem;
+  color: rgba(246, 247, 243, 0.82);
 }
 
 .hero__proof li {
@@ -67,7 +67,7 @@
 .hero__note {
   margin-top: -12px;
   font-size: var(--text-14);
-  color: rgba(246, 247, 243, 0.5);
+  color: rgba(246, 247, 243, 0.68);
 }
 
 @media (max-width: 1024px) {

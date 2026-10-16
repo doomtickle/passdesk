@@ -38,7 +38,7 @@
 }
 
 .compare__card--with .compare__row dd {
-  color: rgba(246, 247, 243, 0.8);
+  color: rgba(246, 247, 243, 0.9);
 }
 
 @media (max-width: 800px) {

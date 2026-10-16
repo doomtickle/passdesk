@@ -25,7 +25,7 @@
 .hood__fact p {
   font-size: var(--text-16);
   line-height: 1.55;
-  color: rgba(246, 247, 243, 0.8);
+  color: rgba(246, 247, 243, 0.9);
 }
 
 @media (max-width: 860px) {

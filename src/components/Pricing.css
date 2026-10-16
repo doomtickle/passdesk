@@ -32,7 +32,7 @@
 }
 
 .plan--pro .plan__sub {
-  color: rgba(246, 247, 243, 0.7);
+  color: rgba(246, 247, 243, 0.82);
 }
 
 .plan__price {
@@ -51,7 +51,7 @@
 }
 
 .plan--pro .plan__period {
-  color: rgba(246, 247, 243, 0.7);
+  color: rgba(246, 247, 243, 0.82);
 }
 
 .plan__list {
@@ -79,7 +79,7 @@
 .plans__note {
   margin-top: 28px;
   font-family: var(--font-mono);
-  font-size: var(--text-13);
+  font-size: var(--text-14);
   color: var(--fg-muted);
 }
 

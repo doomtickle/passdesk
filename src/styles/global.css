@@ -182,7 +182,7 @@ main:focus {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.35;
+  opacity: 0.22;
   background-image:
     linear-gradient(rgba(246, 247, 243, 0.05) 1px, transparent 1px),
     linear-gradient(90deg, rgba(246, 247, 243, 0.05) 1px, transparent 1px);
@@ -193,6 +193,13 @@ main:focus {
 
 .section--dark > * {
   position: relative;
+}
+
+/* On small screens the grid only adds noise behind text. */
+@media (max-width: 720px) {
+  .section--dark::before {
+    display: none;
+  }
 }
 
 .section-head {
