@@ -128,14 +128,6 @@
   color: var(--decline-light);
 }
 
-/* A redaction bar: the text stays in the DOM, visually masked but legible. */
-.tok-redacted {
-  padding: 1px 4px;
-  background: #021510;
-  border: 1px solid var(--rule-on-dark);
-  color: rgba(243, 245, 241, 0.55);
-}
-
 @media (max-width: 720px) {
   .code-panel {
     padding: 20px;

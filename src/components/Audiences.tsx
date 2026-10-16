@@ -12,8 +12,8 @@ export function Audiences() {
             <h3>For engineering</h3>
             <p>
               Agents keep doing real work: fetch and push code, open pull requests, pull packages from npm and
-              PyPI, read the web, work in Jira and use Gemini. When something is off-limits, the agent
-              hears why and can take the allowed route.
+              PyPI, read the web, read their assigned Jira issues and use Gemini. When something is off-limits,
+              the agent hears why and can take the allowed route.
             </p>
           </div>
           <div className="audience">

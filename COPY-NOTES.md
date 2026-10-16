@@ -1,40 +1,67 @@
 # Copy notes
 
 Every claim on the homepage, matched to the shipped capability that backs it.
-Shipped capabilities are S1–S8; roadmap ("Coming soon") items are R1–R5. Copy
+Shipped capabilities are S1–S10; roadmap ("Coming soon") items are R1–R6. Copy
 lives in `src/components/`; the file for each section is named below.
 
-## Shipped capabilities (S1–S8)
+## Shipped capabilities (S1–S10)
 
-- **S1** — Agents never hold your tokens. The GitHub token is injected by
-  the egress proxy into the broker only; other credentials live in
-  Passdesk's own secret store and are read fresh per call.
-- **S2** — Agents can't reach the internet directly. Their only egress is
-  through Passdesk, and Passdesk itself is held to an egress allowlist.
-- **S3** — Each agent gets only its approved tools. A per-agent bearer
-  token maps to a grant list; anything else is denied with a reason.
-- **S4** — Policy limits what a tool can do: repo allowlist, protected
-  branches, required branch prefix, package allow/deny lists, web host
-  allowlist, size limits.
-- **S5** — Outbound secret scanning blocks pushes and prompts that contain
-  secrets. Inbound content is redacted, stripped of terminal escapes and
-  wrapped as untrusted data.
-- **S6** — Packages arrive as lockfile-pinned, hash-verified tarballs and
-  wheels; no install scripts run in Passdesk.
+- **S1** — There's no "Passdesk secret store". The GitHub token is
+  injected directly by the sandbox's egress proxy; Passdesk itself never
+  needs to see it. The Jira, Gemini and private-npm-registry credentials
+  are kept in the user's OS keychain, delivered only into Passdesk's own
+  sandbox, and read fresh from a file on every call.
+- **S2** — Agents still talk to their model provider directly for
+  inference. Every other tool call goes through Passdesk, which is itself
+  held to an egress allowlist.
+- **S3** — Rules are one org-wide policy file, not one per agent. Each
+  agent gets its own tool grant: a per-agent bearer token maps to the
+  list of tools that agent may call; anything outside that grant is
+  denied with a reason. Per-agent rules (letting one agent's repo list,
+  branch rules or size limits differ from another's) are roadmap (**R6**).
+- **S4** — The org policy limits what a tool can do: repo allowlist,
+  protected branches, required branch prefix, package allow/deny lists,
+  web host allowlist, size limits (`max_diff_mb`, not `max_push_mb`).
+- **S5** — Outbound scanning covers every pushed commit (content,
+  messages, author names), pull request titles and bodies, and prompts
+  sent to Gemini, plus web_fetch URLs; it looks for known key/token
+  formats (GitHub, AWS, Anthropic, OpenAI, Slack, Google, private keys,
+  password assignments) and blocks the call if one turns up — a safety
+  net, not a full data-loss-prevention tool. Inbound text from the web,
+  Jira, Gemini and errors from remote services is cleaned (terminal
+  escapes stripped, size capped) and marked as untrusted.
+- **S6** — npm packages are pinned to your lockfile and hash-checked;
+  Python wheels must be pinned to exact versions with hashes. No install
+  scripts run in Passdesk.
 - **S7** — Append-only audit record per call: time, agent, tool, redacted
-  arguments, decision.
-- **S8** — Tools available today: GitHub (fetch, push, open PR), npm,
-  PyPI, web fetch, Jira, Gemini.
+  arguments, the decision (allow/deny/error), the reason and a result
+  excerpt.
+- **S8** — Tools available today: GitHub (fetch, push, open PR as a
+  draft), npm (download only), PyPI (download only), web fetch, Jira
+  (read-only, limited to issues assigned to the calling agent), Gemini.
+- **S9** — Built-in guardrails: pull requests always open as drafts;
+  force-pushes and branch deletion aren't possible through Passdesk's
+  git tools; Jira access is read-only.
+- **S10** — Deployment today: Passdesk runs in a Docker sandbox; the
+  sandbox keeps agents' tool traffic contained and is where the egress
+  proxy adds the GitHub token. One Passdesk serves one project, on your
+  machine. Rules are built into Passdesk's image at build time, so
+  agents can't change them at runtime; changing a rule means rebuilding
+  and restarting.
 
-## Roadmap items (R1–R5)
+## Roadmap items (R1–R6)
 
-- **R1** — Generic MCP adapter for any MCP agent (Claude Code, Codex,
-  Cursor).
+- **R1** — Passdesk already is an MCP server and runs with Claude Code
+  agents in Docker sandboxes today. Roadmap: other MCP clients (Codex,
+  Cursor) and setups without a shared sandbox.
 - **R2** — Tamper-evident hash-chained logs and SIEM sinks (syslog,
   webhook, OpenTelemetry).
 - **R3** — Short-lived per-repo GitHub App tokens.
 - **R4** — Human approval for risky actions.
 - **R5** — Signed policy bundles and an admin API.
+- **R6** — Per-agent rules: letting one agent's repo list, branch rules
+  or size limits differ from another's, instead of every agent sharing
+  the same org-wide policy file.
 
 ## Claim by claim
 
@@ -72,7 +99,8 @@ lives in `src/components/`; the file for each section is named below.
   Passdesk.
 - Table, "With Passdesk" column:
   - "Passdesk, which uses them on the agent's behalf" — **S1**.
-  - "Only to Passdesk" — **S2**.
+  - "Only to Passdesk; apart from its model provider, it has no other way
+    out" — **S2**.
   - "Only the tools you approved, within your rules" — **S3** + **S4**.
   - "What you can see afterwards": "Every call, with its decision" — **S7**.
     The "Without" cell, "Only what each service happens to log", describes
@@ -83,21 +111,23 @@ lives in `src/components/`; the file for each section is named below.
 ### 3. How it works (`HowItWorks.tsx`)
 - Step 1, "its own Passdesk token, never your credentials" — **S3** + **S1**.
 - Step 2, repos/branches/packages/websites, "declined, with a reason" — **S4** (+ **S3** for the reason).
-- Step 3, "It uses its own credentials, so they never reach the agent" — **S1**; "pinned
-  to your lockfile and checked against their hashes, and no install scripts
-  run" — **S6**.
-- Step 4, "Outgoing pushes and prompts are scanned for secrets and blocked if
-  one turns up", results "cleaned and marked as untrusted" — **S5**; "Every call goes on the record" — **S7**.
+- Step 3, "It uses its own credentials, so they never reach the agent" — **S1**; "npm
+  packages are pinned to your lockfile and hash-checked; Python wheels must be
+  pinned to exact versions with hashes. No install scripts run" — **S6**.
+- Step 4, "Pushes, pull requests and prompts sent to Gemini are scanned for
+  common secret formats, and blocked if one turns up" — **S5**; "Text that
+  comes back from the web, Jira or Gemini is cleaned and marked as
+  untrusted" — **S5**; "Every call goes on the record" — **S7**.
 - "When the answer is no" example (push to main declined, hint to use a
   branch starting with `agent/`) — **S4** (protected branches, required
   branch prefix). Captioned "Illustration"; `acme/web` is a placeholder.
 
 ### 4. Audiences (`Audiences.tsx`)
 - "For engineering": the tool list ("fetch and push code, open pull
-  requests, pull packages from npm and PyPI, read the web, work in Jira and
-  use Gemini") — **S8**; Jira and Gemini are named without specific actions
-  because S8 lists them only by name; "hears why and can take the
-  allowed route" — **S4** (reason and hint on a denial).
+  requests, pull packages from npm and PyPI, read the web, read their
+  assigned Jira issues and use Gemini") — **S8**; Gemini is named without a
+  specific action because S8 lists it only by name; "hears why and can take
+  the allowed route" — **S4** (reason and hint on a denial).
 - "For security": "Approve each agent's tools once, in a config file that's
   reviewed like any other code change" — **S3**. Per-agent grant files
   reviewed like code is the brief's policy-as-code wording decision for S3; "see every call: when, which agent, which tool, the arguments with
@@ -106,32 +136,51 @@ lives in `src/components/`; the file for each section is named below.
 ### 5. Under the hood (`UnderTheHood.tsx`)
 - Heading "See what your security team will see" and intro "Two files show
   how it works: the rules an agent works under, and the record of what it
-  did." — **S3** (the rules file) + **S7** (the record); framing, not an
+  did." — **S3** (the rules) + **S7** (the record); framing, not an
   exhaustive claim.
-- "The rules": one file per agent in version control — **S3**; the example
-  file's `repos`, `branches.protected`, `push_prefix`, `max_push_mb`,
-  `npm.allow`/`deny`, `web_fetch.hosts`, `max_response_mb` — **S4**;
-  `actions: [fetch, push, open_pr]` — **S8**. Captioned "illustrative,
-  schema simplified"; all values are placeholders.
+- "The rules" panel intro:
+  - "An org-wide policy file, plus a short tool grant per agent, both kept
+    in version control. Change them, review them, merge them." — **S3**.
+  - "Rules apply to every agent; each agent's grant controls which tools it
+    can call. Per-agent rules are coming." — **S3** (shipped half) + **R6**
+    (roadmap half).
+  - "Rules are built into Passdesk's image, so agents can't change them;
+    changing a rule means rebuilding and restarting." — **S10**.
+  - The example is split into two files: `policy.toml` (org-wide — `repos`,
+    `branches.protected`, `push_prefix`, `max_diff_mb`, `npm.allow`/`deny`,
+    `web_fetch.hosts`, `max_response_mb` — **S4**) and `grants/release-bot`
+    (per-agent — `tools: [github.fetch, github.push, github.open_pr,
+    npm.fetch]` — **S3** + **S8**). Captioned "illustrative, schema
+    simplified"; all values are placeholders.
 - "The record": "time, agent, tool, redacted arguments and the decision" —
-  **S7**. Sample lines (captioned "illustrative, not captured output"): the
-  "secret detected in diff" denial and `[REDACTED]` body — **S5**; the
-  "protected branch" denial — **S4**; the `jira.comment` line is an
-  illustrative example of a Jira call (**S8** Jira) with redaction (**S5**) —
-  action name illustrative; no line carries a credential — **S1**.
+  **S7** (abridged; the full field list — reason, result excerpt — is in
+  S7 above). Sample lines (captioned "illustrative, not captured output"):
+  the "secret detected in diff" denial — **S5**; the "protected branch"
+  denial — **S4**; the `jira.get_issue` line is an illustrative example of
+  a Jira read call (**S8** Jira, read-only) — action name illustrative; no
+  line carries a credential — **S1**.
 
 ### 6. Availability (`Availability.tsx`)
-- "Works today" list — **S8**, the full list.
-- "Coming soon" list — **R1**, **R2**, **R3**, **R4**, **R5**, in that order.
+- "Works today" list — **S8**, the full list; the "Jira (read your assigned
+  issues)" entry — **S8**.
+- "Works today" note, "Pull requests open as drafts; force-pushes and
+  branch deletion aren't possible; Jira is read-only." — **S9**.
+- "Coming soon" list — **R1** ("Any MCP client, outside Docker sandboxes"),
+  **R6** (per-agent rules), **R2**, **R3**, **R4**, **R5**, in that order.
   This is the only place roadmap items are listed (the FAQ restates R1).
 
 ### 7. FAQ (`Faq.tsx`)
-- GitHub token — **S1** + **S3**.
+- GitHub token, "Passdesk's sandbox holds the credentials" — **S1** + **S3**.
 - Not allowed — **S4** + **S7**.
-- Going around Passdesk — **S2**.
-- Secret in a push or prompt — **S5**.
-- "Will it work with Claude Code, Codex or Cursor?" — **R1**, explicitly
-  labelled "coming soon".
+- Going around Passdesk, "All of an agent's tool traffic goes through
+  Passdesk; apart from its model provider, it has no other way out" —
+  **S2**.
+- Secret in a push or prompt — **S5**, including the list of key/token
+  formats and the "safety net, not a full data-loss-prevention tool" line.
+- "What do I need to run it?" — **S10**.
+- "Will it work with Claude Code, Codex or Cursor?" — **R1**: today's
+  Claude Code / Docker sandbox / MCP support is **S10**/shipped; the rest
+  (other MCP clients, no shared sandbox) is explicitly "coming".
 - When can I try it — no product claim.
 
 ### 8. Closing and footer (`Closing.tsx`, `Footer.tsx`)

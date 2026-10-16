@@ -10,7 +10,7 @@ const ROWS = [
   {
     label: 'Where the agent can connect',
     without: 'Anywhere on the internet',
-    with: 'Only to Passdesk',
+    with: "Only to Passdesk; apart from its model provider, it has no other way out",
   },
   {
     label: "What it's allowed to do",

@@ -11,11 +11,11 @@ const STEPS = [
   },
   {
     title: 'Passdesk does the job',
-    body: 'It uses its own credentials, so they never reach the agent. Packages arrive pinned to your lockfile and checked against their hashes, and no install scripts run.',
+    body: 'It uses its own credentials, so they never reach the agent. npm packages are pinned to your lockfile and hash-checked; Python wheels must be pinned to exact versions with hashes. No install scripts run in Passdesk.',
   },
   {
     title: 'Passdesk checks the result and writes it down',
-    body: 'Outgoing pushes and prompts are scanned for secrets and blocked if one turns up. Whatever comes back is cleaned and marked as untrusted before your agent reads it. Every call goes on the record.',
+    body: 'Pushes, pull requests and prompts sent to Gemini are scanned for common secret formats, and blocked if one turns up. Text that comes back from the web, Jira or Gemini is cleaned and marked as untrusted. Every call goes on the record.',
   },
 ];
 

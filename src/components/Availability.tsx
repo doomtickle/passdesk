@@ -1,9 +1,20 @@
 import './Availability.css';
 
-const TODAY = ['GitHub (fetch, push, open pull requests)', 'npm', 'PyPI', 'Web fetch', 'Jira', 'Gemini'];
+const TODAY = [
+  'GitHub (fetch, push, open pull requests)',
+  'npm',
+  'PyPI',
+  'Web fetch',
+  'Jira (read your assigned issues)',
+  'Gemini',
+];
+
+const TODAY_NOTE =
+  "Pull requests open as drafts; force-pushes and branch deletion aren't possible; Jira is read-only.";
 
 const NEXT = [
-  'A generic adapter for any MCP agent, including Claude Code, Codex and Cursor',
+  'Any MCP client, outside Docker sandboxes',
+  'Per-agent rules, not just a shared tool grant',
   'Tamper-evident logs you can stream to your SIEM',
   'Short-lived GitHub tokens scoped to one repo',
   'Human approval for risky actions',
@@ -25,6 +36,7 @@ export function Availability() {
                 <li key={item}>{item}</li>
               ))}
             </ul>
+            <p className="availability__note">{TODAY_NOTE}</p>
           </div>
           <div className="availability__group">
             <h3 id="coming-soon">Coming soon</h3>

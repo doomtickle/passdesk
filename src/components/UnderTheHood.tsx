@@ -8,52 +8,48 @@ const TABS: { id: TabId; label: string }[] = [
   { id: 'record', label: 'The record' },
 ];
 
-// Hand-tinted copy of the example rules file. Keep values in sync with COPY-NOTES.md.
+// Hand-tinted copy of the example rules files. Keep values in sync with COPY-NOTES.md.
 function RulesFile() {
   const c = (text: string) => <span className="tok-comment">{text}</span>;
   const s = (text: string) => <span className="tok-string">{text}</span>;
   const k = (text: string) => <span className="tok-key">{text}</span>;
   return (
     <code>
-      {c('# grants/release-bot.yaml')}
+      {c('# policy.toml — org-wide, applies to every agent')}
       {'\n'}
-      {k('agent')}: release-bot{'\n'}
-      {k('tools')}:{'\n'}
-      {'  '}
       {k('github')}:{'\n'}
-      {'    '}
+      {'  '}
       {k('repos')}: [{s('"acme/web"')}, {s('"acme/api"')}]{'\n'}
-      {'    '}
+      {'  '}
       {k('branches')}:{'\n'}
-      {'      '}
-      {k('protected')}: [{s('"main"')}, {s('"release/*"')}]{'  '}
-      {c('# org policy, shown inline')}
-      {'\n'}
-      {'      '}
+      {'    '}
+      {k('protected')}: [{s('"main"')}, {s('"release/*"')}]{'\n'}
+      {'  '}
       {k('push_prefix')}: {s('"agent/"')}
       {'\n'}
-      {'    '}
-      {k('actions')}: [fetch, push, open_pr]{'\n'}
-      {'    '}
-      {k('max_push_mb')}: 20{'\n'}
       {'  '}
+      {k('max_diff_mb')}: 20{'\n'}
       {k('npm')}:{'\n'}
-      {'    '}
-      {k('allow')}: [{s('"@acme/*"')}]{'\n'}
-      {'    '}
-      {k('deny')}: [{s('"@acme/legacy-auth"')}]{'\n'}
       {'  '}
+      {k('allow')}: [{s('"@acme/*"')}]{'\n'}
+      {'  '}
+      {k('deny')}: [{s('"@acme/legacy-auth"')}]{'\n'}
       {k('web_fetch')}:{'\n'}
-      {'    '}
+      {'  '}
       {k('hosts')}: [{s('"docs.acme.internal"')}, {s('"wiki.acme.internal"')}]{'\n'}
-      {'    '}
-      {k('max_response_mb')}: 5
+      {'  '}
+      {k('max_response_mb')}: 5{'\n'}
+      {'\n'}
+      {c('# grants/release-bot — this agent’s tool grant')}
+      {'\n'}
+      {k('agent')}: release-bot{'\n'}
+      {k('tools')}: [github.fetch, github.push, github.open_pr, npm.fetch]
     </code>
   );
 }
 
 // A hand-written sample audit record (not captured output), column-aligned by hand.
-const RECORD_LINES: { text: string; decision: string; redacted?: boolean }[] = [
+const RECORD_LINES: { text: string; decision: string }[] = [
   {
     text: '2026-03-04T09:12:01Z  agent=release-bot    tool=github.push     args={repo: "acme/web", branch: "agent/bump-deps"}                ',
     decision: 'decision=ALLOW',
@@ -71,9 +67,8 @@ const RECORD_LINES: { text: string; decision: string; redacted?: boolean }[] = [
     decision: 'decision=DENY  reason="protected branch"',
   },
   {
-    text: '2026-03-04T09:15:40Z  agent=triage-bot     tool=jira.comment    args={issue: "OPS-204", body: [REDACTED]}                         ',
+    text: '2026-03-04T09:15:40Z  agent=triage-bot     tool=jira.get_issue  args={issue: "OPS-204"}                                           ',
     decision: 'decision=ALLOW',
-    redacted: true,
   },
   {
     text: '2026-03-04T09:21:08Z  agent=pkg-bot        tool=npm.fetch       args={package: "@acme/ui-kit@2.4.1"}                              ',
@@ -86,20 +81,9 @@ function RecordFile() {
     <code>
       {RECORD_LINES.map((line) => {
         const denied = line.decision.startsWith('decision=DENY');
-        let text: ReactNode = line.text;
-        if (line.redacted) {
-          const [before, after] = line.text.split('[REDACTED]');
-          text = (
-            <>
-              {before}
-              <span className="tok-redacted">[REDACTED]</span>
-              {after}
-            </>
-          );
-        }
         return (
           <span key={line.text} className={`log-line${denied ? ' log-line--deny' : ''}`}>
-            {text}
+            {line.text}
             <span className={denied ? 'tok-deny' : 'tok-allow'}>{line.decision}</span>
             {'\n'}
           </span>
@@ -171,8 +155,19 @@ export function UnderTheHood() {
         </div>
 
         <div id="panel-rules" role="tabpanel" aria-labelledby="tab-rules" className="tabs__panel" hidden={active !== 'rules'}>
-          <p className="tabs__intro">One file per agent, kept in version control. Change it, review it, merge it.</p>
-          <CodePanel label="Example rules file" caption="Example rules file (illustrative, schema simplified)">
+          <p className="tabs__intro">
+            An org-wide policy file, plus a short tool grant per agent, both kept in version control. Change
+            them, review them, merge them.
+          </p>
+          <p className="tabs__intro">
+            Rules apply to every agent; each agent's grant controls which tools it can call. Per-agent rules
+            are coming.
+          </p>
+          <p className="tabs__intro">
+            Rules are built into Passdesk's image, so agents can't change them; changing a rule means
+            rebuilding and restarting.
+          </p>
+          <CodePanel label="Example policy and tool grant" caption="Example policy and tool grant (illustrative, schema simplified)">
             <RulesFile />
           </CodePanel>
         </div>

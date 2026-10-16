@@ -3,7 +3,7 @@ import './Faq.css';
 const QUESTIONS = [
   {
     q: 'Does my agent ever see my GitHub token?',
-    a: 'No. Passdesk holds the credentials and makes the call itself. The agent only holds its own Passdesk token, which works only for the tools you approved.',
+    a: "No. Passdesk's sandbox holds the credentials and makes the call itself. The agent only holds its own Passdesk token, which works only for the tools you approved.",
   },
   {
     q: "What happens when an agent asks for something it isn't allowed to do?",
@@ -11,15 +11,19 @@ const QUESTIONS = [
   },
   {
     q: 'Can an agent go around Passdesk?',
-    a: "An agent's only way out to the network is through Passdesk, and Passdesk itself can only reach an approved list of hosts.",
+    a: "All of an agent's tool traffic goes through Passdesk; apart from its model provider, it has no other way out.",
   },
   {
     q: 'What if a secret ends up in a push or a prompt?',
-    a: 'Passdesk scans outgoing pushes and prompts for secrets and blocks them if it finds one.',
+    a: "Pushes, pull requests and prompts sent to Gemini are scanned for common secret formats, and blocked if one turns up. Text that comes back from the web, Jira or Gemini is cleaned and marked as untrusted. It looks for known key and token formats (GitHub, AWS, Anthropic, OpenAI, Slack, Google, private keys, password assignments). It's a safety net, not a full data-loss-prevention tool.",
+  },
+  {
+    q: 'What do I need to run it?',
+    a: 'Passdesk runs in Docker Sandboxes today; the sandbox keeps agents’ tool traffic contained and adds your GitHub token. One Passdesk serves one project, on your machine.',
   },
   {
     q: 'Will it work with Claude Code, Codex or Cursor?',
-    a: 'A generic adapter for any MCP agent, including those three, is coming soon. Request early access and tell us what you run.',
+    a: 'Today it runs with Claude Code agents in Docker sandboxes and speaks MCP. Support for other MCP clients (Codex, Cursor) and setups without a shared sandbox is coming.',
   },
   {
     q: 'When can I try it?',
