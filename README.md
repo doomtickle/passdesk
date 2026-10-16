@@ -19,6 +19,14 @@ npm test           # compile src/lib with tsc, then run its tests with node --te
 The build output in `dist/` is fully static and makes no external network requests
 at runtime.
 
+## Deployment
+
+`.github/workflows/deploy.yml` builds and tests on every push and pull
+request, and publishes `dist/` to GitHub Pages on pushes to `main`. The
+repository's Pages source must be "GitHub Actions", with `passdesk.dev` as the
+custom domain; DNS for the apex points at GitHub Pages' A and AAAA records and
+`www` is a CNAME to `doomtickle.github.io`.
+
 ## Fonts
 
 The design uses Schibsted Grotesk and JetBrains Mono, self-hosted via
