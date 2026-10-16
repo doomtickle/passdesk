@@ -12,12 +12,32 @@ npm run dev        # local dev server with hot reload
 npm run build      # type-check, then build the static site into dist/
 npm run preview    # serve the built dist/ locally
 npm run typecheck  # tsc --noEmit only
-npm test           # run src/lib tests with node --test
+npm test           # compile src/lib with tsc, then run its tests with node --test
 ```
 
-The build output in `dist/` is fully static. Fonts are bundled from npm
-(`@fontsource-variable/schibsted-grotesk`, `@fontsource/jetbrains-mono`), so the page
-makes no external network requests at runtime.
+The build output in `dist/` is fully static and makes no external network requests
+at runtime.
+
+## Fonts
+
+The design uses Schibsted Grotesk and JetBrains Mono, normally self-hosted via
+`@fontsource-variable/schibsted-grotesk` and `@fontsource/jetbrains-mono`. Both are
+temporarily removed from `package.json` because their current `package-lock.json`
+entries lack integrity hashes, which blocks offline installs in this environment.
+Until they're re-added, `--font-sans` and `--font-mono` in
+`src/styles/tokens.css` fall back to system fonts (`ui-sans-serif`/`system-ui` and
+`ui-monospace`/`'SF Mono'`), so the page still renders correctly, just without the
+custom typefaces.
+
+To restore them, on a machine with npm registry access:
+
+```bash
+npm install @fontsource-variable/schibsted-grotesk @fontsource/jetbrains-mono
+```
+
+then import them in `src/main.tsx` (`import '@fontsource-variable/schibsted-grotesk';`
+and `import '@fontsource/jetbrains-mono/400.css';`), which regenerates lockfile
+entries with proper integrity hashes.
 
 ## Where things live
 

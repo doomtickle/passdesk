@@ -23,9 +23,9 @@
   --rule: #d9dfda;
 
   /* Type */
-  --font-sans: 'Schibsted Grotesk Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
-    sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-sans: 'Schibsted Grotesk Variable', 'Schibsted Grotesk', ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   --text-14: 0.875rem;
   --text-16: 1rem;
   --text-18: 1.125rem;

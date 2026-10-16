@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { isValidEmail, submitWaitlist } from './waitlist.ts';
+import { isValidEmail, submitWaitlist } from './waitlist.js';
 
 test('isValidEmail accepts well-formed addresses', () => {
   assert.equal(isValidEmail('name@company.com'), true);
@@ -139,7 +139,7 @@ test('submitWaitlist returns network when fetch throws', async () => {
 
 test('submitWaitlist returns network on timeout', async () => {
   const fetchImpl = ((_url: string | URL, init?: RequestInit) =>
-    new Promise<Response>((resolve, reject) => {
+    new Promise<Response>((_resolve, reject) => {
       const signal = init?.signal;
       signal?.addEventListener('abort', () => {
         reject(new DOMException('aborted', 'AbortError'));
