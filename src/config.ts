@@ -2,5 +2,6 @@
 // to run while CONTACT_EMAIL still equals it (see vite.config.ts).
 export const PLACEHOLDER_CONTACT_EMAIL = 'hello@passdesk.example';
 
-// TODO: replace with the real contact address before launch.
-export const CONTACT_EMAIL: string = PLACEHOLDER_CONTACT_EMAIL;
+// The public contact address on passdesk.dev. Mail to it must be routed
+// somewhere real (e.g. Cloudflare Email Routing) before the site goes live.
+export const CONTACT_EMAIL: string = 'hello@passdesk.dev';

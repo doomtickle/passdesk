@@ -43,10 +43,9 @@ fonts if a build ever omits the imports.
 - `src/styles/global.css` — base element styles, layout helpers, buttons, focus rings.
 - `src/lib/waitlist.ts` — email validation and submission logic for the waitlist
   form, framework-free and unit-tested (`src/lib/waitlist.test.ts`).
-- `src/config.ts` — `CONTACT_EMAIL`, used in the footer and in the waitlist
-  form's error states. It's a placeholder (`PLACEHOLDER_CONTACT_EMAIL`,
-  `hello@passdesk.example`) and must be replaced before launch; the production
-  build refuses to run until it is.
+- `src/config.ts` — `CONTACT_EMAIL` (`hello@passdesk.dev`), used in the footer
+  and in the waitlist form's error states. The production build refuses to run
+  while it is still the placeholder `PLACEHOLDER_CONTACT_EMAIL`.
 - `COPY-NOTES.md` — every claim on the page mapped to the shipped capability (S1–S8)
   or roadmap item (R1–R5) that backs it.
 
