@@ -39,7 +39,7 @@ lives in `src/components/`; the file for each section is named below.
 - **S8** — Tools available today: GitHub (fetch, push, open PR as a
   draft), npm (download only), PyPI (download only), web fetch, Jira
   (read-only, limited to issues assigned to the calling agent), Gemini.
-- **S9** — Built-in guardrails: pull requests always open as drafts;
+- **S9** — Built-in guardrails: pull requests open as drafts by default;
   force-pushes and branch deletion aren't possible through Passdesk's
   git tools; Jira access is read-only.
 - **S10** — Deployment today: Passdesk runs in a Docker sandbox; the
