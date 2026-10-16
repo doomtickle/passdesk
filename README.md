@@ -93,8 +93,8 @@ email `CONTACT_EMAIL` directly instead of submitting.
 
 ## Launch guard
 
-`npm run build` (a production build) fails with a `[passdesk] Refusing to build
-for production` message if either of these is still true:
+`npm run build` (or any non-development build mode) fails with a `[passdesk]
+Refusing to build for mode "..."` message if either of these is still true:
 
 - `VITE_WAITLIST_ENDPOINT` is unset (in `.env.local`, `.env.production` or the
   environment);

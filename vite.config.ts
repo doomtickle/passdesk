@@ -1,8 +1,8 @@
 import { defineConfig, loadEnv } from 'vite';
 import { CONTACT_EMAIL, PLACEHOLDER_CONTACT_EMAIL } from './src/config';
 
-// Launch guard: a production build fails while the site is still unconfigured,
-// unless PASSDESK_ALLOW_UNCONFIGURED=1 (used by `npm run build:preview`).
+// Launch guard: any non-development build fails while the site is still
+// unconfigured, unless PASSDESK_ALLOW_UNCONFIGURED=1 (used by `npm run build:preview`).
 function launchProblems(mode: string): string[] {
   const env = loadEnv(mode, '.', 'VITE_');
   const problems: string[] = [];
@@ -21,9 +21,9 @@ export default defineConfig(({ command, mode }) => {
     const problems = launchProblems(mode);
     if (problems.length > 0) {
       const list = problems.map((problem) => `  - ${problem}`).join('\n');
-      if (mode === 'production' && process.env.PASSDESK_ALLOW_UNCONFIGURED !== '1') {
+      if (mode !== 'development' && process.env.PASSDESK_ALLOW_UNCONFIGURED !== '1') {
         throw new Error(
-          `\n[passdesk] Refusing to build for production:\n${list}\nFix these, or run \`npm run build:preview\` (PASSDESK_ALLOW_UNCONFIGURED=1) for a non-launch build.\n`,
+          `\n[passdesk] Refusing to build for mode "${mode}":\n${list}\nFix these, or run \`npm run build:preview\` (PASSDESK_ALLOW_UNCONFIGURED=1) for a non-launch build.\n`,
         );
       }
       console.warn(`\n[passdesk] Building an unconfigured site:\n${list}\n`);

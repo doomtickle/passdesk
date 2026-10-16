@@ -421,6 +421,11 @@
     gap: 20px;
   }
 
+  /* Slips are wider here, so they need less height than the two-column layout. */
+  .desk__tickets {
+    height: 300px;
+  }
+
   .desk__rack {
     padding-left: 0;
     padding-top: 16px;
@@ -442,11 +447,21 @@
   }
 
   .desk__tickets {
-    height: 260px;
+    height: 300px;
   }
 
   .ticket {
+    flex-wrap: wrap;
     padding: 12px;
+  }
+
+  /* Stamp moves to its own row above the request text so the slip's full
+     width is free for the agent name, request and decline reason. */
+  .ticket .stamp {
+    order: -1;
+    flex-basis: 100%;
+    justify-self: end;
+    margin-left: auto;
   }
 
   .record {
