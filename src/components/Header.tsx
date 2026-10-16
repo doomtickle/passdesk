@@ -13,6 +13,7 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const sentinel = useRef<HTMLDivElement>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
+  const header = useRef<HTMLElement>(null);
 
   // The header is transparent while the top of the page is in view and turns
   // solid once the sentinel (just below the header) scrolls out of view.
@@ -24,6 +25,8 @@ export function Header() {
     return () => observer.disconnect();
   }, []);
 
+  // While the mobile menu is open, Escape closes it and returns focus to the
+  // menu button; a click or tap outside the header closes it too.
   useEffect(() => {
     if (!menuOpen) return;
     const onKey = (event: KeyboardEvent) => {
@@ -32,8 +35,15 @@ export function Header() {
         menuButton.current?.focus();
       }
     };
+    const onPointerDown = (event: PointerEvent) => {
+      if (!header.current?.contains(event.target as Node)) setMenuOpen(false);
+    };
     document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('pointerdown', onPointerDown);
+    };
   }, [menuOpen]);
 
   const closeMenu = () => setMenuOpen(false);
@@ -42,6 +52,7 @@ export function Header() {
     <>
       <div ref={sentinel} className="header-sentinel" aria-hidden="true" />
       <header
+        ref={header}
         className={`site-header on-dark${scrolled ? ' is-scrolled' : ''}${menuOpen ? ' is-open' : ''}`}
       >
         <div className="container site-header__inner">

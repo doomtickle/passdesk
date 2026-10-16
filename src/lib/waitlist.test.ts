@@ -109,6 +109,28 @@ test('submitWaitlist posts FormData with email, company, source and the Accept h
   assert.equal(body.get('source'), 'closing');
 });
 
+test('submitWaitlist trims company and omits it when blank', async () => {
+  const bodies: FormData[] = [];
+  const fetchImpl = (async (_url: string | URL, init?: RequestInit) => {
+    bodies.push(init?.body as FormData);
+    return new Response(null, { status: 200 });
+  }) as typeof fetch;
+
+  for (const company of ['  Acme Inc  ', '   ', '']) {
+    await submitWaitlist({
+      endpoint: 'https://example.com/forms/abc',
+      email: 'name@company.com',
+      company,
+      source: 'hero',
+      fetchImpl,
+    });
+  }
+
+  assert.equal(bodies[0].get('company'), 'Acme Inc');
+  assert.equal(bodies[1].has('company'), false);
+  assert.equal(bodies[2].has('company'), false);
+});
+
 test('submitWaitlist returns server on a non-2xx response', async () => {
   const fetchImpl = (async () => new Response(null, { status: 500 })) as typeof fetch;
 

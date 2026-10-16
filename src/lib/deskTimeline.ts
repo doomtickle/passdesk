@@ -141,3 +141,14 @@ export function stillFrame(length: number, limits: FrameLimits = DEFAULT_LIMITS)
     activeIndex: null,
   };
 }
+
+/**
+ * The time shown on a record line: the script's time, moved on 10 minutes for
+ * every completed loop, so the record keeps reading forward (wraps at 24h).
+ */
+export function recordTime(time: string, id: number, length: number, minutesPerLoop = 10): string {
+  const [hours, minutes] = time.split(':').map(Number);
+  const total = (hours * 60 + minutes + Math.floor(id / length) * minutesPerLoop) % (24 * 60);
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${pad(Math.floor(total / 60))}:${pad(total % 60)}`;
+}

@@ -11,7 +11,6 @@
     'record record';
   gap: 24px;
   position: relative;
-  min-height: 640px;
   padding: 24px;
   background: var(--lobby-raised);
   border: 1px solid var(--rule-on-dark);
@@ -409,7 +408,10 @@
   color: var(--mist);
 }
 
-@media (max-width: 560px) {
+/* Below 1200px the agents get the full panel width and the rack becomes a
+   wrapped row under them. The slip list and record keep fixed heights, so the
+   panel's height never changes while the animation runs. */
+@media (max-width: 1200px) {
   .desk__panel {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
@@ -417,16 +419,6 @@
       'rack'
       'record';
     gap: 20px;
-    min-height: 720px;
-    padding: 16px;
-  }
-
-  .desk__tickets {
-    height: 340px;
-  }
-
-  .ticket {
-    padding: 12px;
   }
 
   .desk__rack {
@@ -440,6 +432,21 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+  }
+}
+
+/* Two slips at most here (see SMALL_LIMITS in DeskDemo.tsx). */
+@media (max-width: 560px) {
+  .desk__panel {
+    padding: 16px;
+  }
+
+  .desk__tickets {
+    height: 260px;
+  }
+
+  .ticket {
+    padding: 12px;
   }
 
   .record {

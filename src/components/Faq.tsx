@@ -18,8 +18,8 @@ const QUESTIONS = [
     a: 'Passdesk scans outgoing pushes and prompts for secrets and blocks them if it finds one.',
   },
   {
-    q: 'Which agents does it work with?',
-    a: 'A generic adapter for any MCP agent, including Claude Code, Codex and Cursor, is coming soon. Request early access and tell us what you run.',
+    q: 'Will it work with Claude Code, Codex or Cursor?',
+    a: 'A generic adapter for any MCP agent, including those three, is coming soon. Request early access and tell us what you run.',
   },
   {
     q: 'When can I try it?',

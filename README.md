@@ -9,7 +9,8 @@ few seconds and collect early-access sign-ups.
 ```bash
 npm install        # install dependencies
 npm run dev        # local dev server with hot reload
-npm run build      # type-check, then build the static site into dist/
+npm run build      # type-check, then build the static site into dist/ (fails until launch config is set, see below)
+npm run build:preview  # same build, allowed to run without launch config (for previews)
 npm run preview    # serve the built dist/ locally
 npm run typecheck  # tsc --noEmit only
 npm test           # compile src/lib with tsc, then run its tests with node --test
@@ -54,8 +55,9 @@ entries with proper integrity hashes.
 - `src/lib/waitlist.ts` — email validation and submission logic for the waitlist
   form, framework-free and unit-tested (`src/lib/waitlist.test.ts`).
 - `src/config.ts` — `CONTACT_EMAIL`, used in the footer and in the waitlist
-  form's error states. It's a placeholder (`hello@passdesk.example`) and must
-  be replaced before launch.
+  form's error states. It's a placeholder (`PLACEHOLDER_CONTACT_EMAIL`,
+  `hello@passdesk.example`) and must be replaced before launch; the production
+  build refuses to run until it is.
 - `COPY-NOTES.md` — every claim on the page mapped to the shipped capability (S1–S8)
   or roadmap item (R1–R5) that backs it.
 
@@ -87,10 +89,27 @@ value on submit, the request is silently dropped as a bot without ever
 reaching the network.
 
 If `VITE_WAITLIST_ENDPOINT` is unset, the form shows a message asking people to
-email `CONTACT_EMAIL` directly instead of submitting, and `vite build` prints a
-warning (it does not fail the build) so this doesn't ship unnoticed.
+email `CONTACT_EMAIL` directly instead of submitting.
+
+## Launch guard
+
+`npm run build` (a production build) fails with a `[passdesk] Refusing to build
+for production` message if either of these is still true:
+
+- `VITE_WAITLIST_ENDPOINT` is unset (in `.env.local`, `.env.production` or the
+  environment);
+- `CONTACT_EMAIL` in `src/config.ts` is still the placeholder
+  `hello@passdesk.example`.
+
+The check lives in `vite.config.ts`. For previews and CI builds that don't need
+to be launch-ready, run `npm run build:preview`, which sets
+`PASSDESK_ALLOW_UNCONFIGURED=1`; it builds anyway and prints the same list as a
+warning.
 
 ## Hero demo
 
-`src/components/DeskDemo.tsx` is a static illustration of requests going through the
-desk. It will be animated in a later step.
+`src/components/DeskDemo.tsx` animates requests going through the desk. The slips
+and record lines are in `src/components/deskScript.ts`; the timing and "what is on
+screen at each step" logic is in `src/lib/deskTimeline.ts` (unit-tested). It pauses
+on hover, off-screen and in a hidden tab, has a pause button, and shows a still
+frame when the visitor prefers reduced motion.

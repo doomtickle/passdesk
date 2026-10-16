@@ -19,6 +19,12 @@
   border-bottom: 2px solid var(--fg);
 }
 
+.compare thead th,
+.compare thead td {
+  padding-top: 0;
+  padding-bottom: 20px;
+}
+
 .compare thead .compare__corner {
   border-bottom: 2px solid var(--fg);
 }

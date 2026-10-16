@@ -65,11 +65,11 @@ export const DESK_SCRIPT: readonly DeskTicket[] = [
   },
   {
     agent: 'triage-bot',
-    request: 'Comment on OPS-204',
-    ask: 'comment on OPS-204',
+    request: 'Fetch acme/api from GitHub',
+    ask: 'fetch acme/api from GitHub',
     decision: 'Approved',
-    key: 'Jira',
-    tool: 'jira.comment',
+    key: 'GitHub',
+    tool: 'github.fetch',
     time: '09:15',
   },
   {

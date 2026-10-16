@@ -11,11 +11,11 @@ const STEPS = [
   },
   {
     title: 'Passdesk does the job',
-    body: 'It uses its own credentials, fetched fresh for each call. Packages arrive pinned to your lockfile and checked against their hashes, and no install scripts run.',
+    body: 'It uses its own credentials, so they never reach the agent. Packages arrive pinned to your lockfile and checked against their hashes, and no install scripts run.',
   },
   {
     title: 'Passdesk checks the result and writes it down',
-    body: 'Secrets are caught before a push or prompt goes out. Whatever comes back is cleaned and marked as untrusted before your agent reads it. Every call goes on the record.',
+    body: 'Outgoing pushes and prompts are scanned for secrets and blocked if one turns up. Whatever comes back is cleaned and marked as untrusted before your agent reads it. Every call goes on the record.',
   },
 ];
 

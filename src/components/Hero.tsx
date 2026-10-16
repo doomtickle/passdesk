@@ -13,7 +13,7 @@ export function Hero() {
           <p className="hero__lede">
             Passdesk is the front desk for your AI coding agents. They push code, open pull requests and
             pull in packages, and Passdesk does each job with its own credentials, by your rules, on the
-            record. Your agents never hold a token.
+            record. Your agents never hold your tokens.
           </p>
           <WaitlistForm source="hero" />
           <p className="hero__note">We'll only email you about Passdesk early access.</p>

@@ -93,8 +93,9 @@ export function WaitlistForm({ source }: { source: 'hero' | 'closing' }) {
           autoComplete="email"
           inputMode="email"
           placeholder="you@company.com"
+          maxLength={254}
           required
-          aria-invalid={error ? true : undefined}
+          aria-invalid={error === 'invalid_email' ? true : undefined}
           aria-describedby={error ? errorId : undefined}
           disabled={isSubmitting}
         />
@@ -113,6 +114,7 @@ export function WaitlistForm({ source }: { source: 'hero' | 'closing' }) {
           name="company"
           autoComplete="organization"
           placeholder="Acme"
+          maxLength={100}
           disabled={isSubmitting}
         />
       </div>

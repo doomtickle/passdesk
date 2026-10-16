@@ -45,7 +45,8 @@ export async function submitWaitlist(opts: {
 
   const formData = new FormData();
   formData.set('email', email.trim());
-  if (company) formData.set('company', company);
+  const trimmedCompany = company?.trim();
+  if (trimmedCompany) formData.set('company', trimmedCompany);
   formData.set('source', source);
 
   const controller = new AbortController();

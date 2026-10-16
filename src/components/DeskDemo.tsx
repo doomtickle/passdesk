@@ -3,8 +3,10 @@ import {
   deskFrame,
   nextPosition,
   phaseDuration,
+  recordTime,
   startPosition,
   stillFrame,
+  type FrameLimits,
   type TimelinePosition,
 } from '../lib/deskTimeline';
 import { DESK_SCRIPT, RACK_KEYS, describeTicket } from './deskScript';
@@ -12,25 +14,29 @@ import './DeskDemo.css';
 
 const LENGTH = DESK_SCRIPT.length;
 const START = startPosition(LENGTH);
-const STILL = stillFrame(LENGTH);
+// Small screens show two slips so the stack stays short.
+const LIMITS: FrameLimits = { maxSlips: 3, maxRecords: 4 };
+const SMALL_LIMITS: FrameLimits = { maxSlips: 2, maxRecords: 4 };
+const STILL = stillFrame(LENGTH, LIMITS);
+const SMALL_STILL = stillFrame(LENGTH, SMALL_LIMITS);
 const MOVE_MS = 450;
 const MOVE_EASING = 'cubic-bezier(0.22, 0.61, 0.36, 1)';
 
-function prefersReducedMotion(): boolean {
-  return typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
+function matches(media: string): boolean {
+  return typeof window !== 'undefined' && window.matchMedia?.(media).matches === true;
 }
 
-function useReducedMotion(): boolean {
-  const [reduced, setReduced] = useState(prefersReducedMotion);
+function useMediaQuery(media: string): boolean {
+  const [match, setMatch] = useState(() => matches(media));
   useEffect(() => {
-    const query = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+    const query = window.matchMedia?.(media);
     if (!query) return;
-    const update = () => setReduced(query.matches);
+    const update = () => setMatch(query.matches);
     update();
     query.addEventListener('change', update);
     return () => query.removeEventListener('change', update);
-  }, []);
-  return reduced;
+  }, [media]);
+  return match;
 }
 
 /**
@@ -60,37 +66,25 @@ function useFlip(listRef: RefObject<HTMLOListElement>, enabled: boolean) {
   });
 }
 
-function isFocusVisible(element: Element): boolean {
-  try {
-    return element.matches(':focus-visible');
-  } catch {
-    return true;
-  }
-}
-
 // The hero "desk": agents bring requests, the desk decides with keys that never
 // leave the rack, and every decision goes on the record. Timing and frame logic
 // live in src/lib/deskTimeline.ts; copy lives in ./deskScript.ts.
 export function DeskDemo() {
-  const reduced = useReducedMotion();
+  const reduced = useMediaQuery('(prefers-reduced-motion: reduce)');
+  const small = useMediaQuery('(max-width: 560px)');
   const [pos, setPos] = useState<TimelinePosition>(START);
   const [userPaused, setUserPaused] = useState(false);
+  // Hovering pauses silently; the button only reflects the visitor's own choice.
   const [hovered, setHovered] = useState(false);
-  const [focused, setFocused] = useState(false);
-  // Pressing play while hovering or focused overrides those pauses until the
-  // pointer or focus leaves the panel.
-  const [override, setOverride] = useState(false);
   const [inView, setInView] = useState(true);
   const [pageVisible, setPageVisible] = useState(() => typeof document === 'undefined' || !document.hidden);
 
   const figureRef = useRef<HTMLElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
   const slipsRef = useRef<HTMLOListElement>(null);
   const recordRef = useRef<HTMLOListElement>(null);
   const remainingRef = useRef<number | null>(null);
 
-  const shownPaused = userPaused || ((hovered || focused) && !override);
-  const running = !reduced && !shownPaused && inView && pageVisible;
+  const running = !reduced && !userPaused && !hovered && inView && pageVisible;
 
   // Timeline driver: one timeout per phase. Pausing keeps the time left in the
   // current phase so resuming doesn't skip or repeat anything.
@@ -128,37 +122,18 @@ export function DeskDemo() {
   useFlip(recordRef, !reduced);
 
   // Until the first tick (and always with reduced motion) show the composed still frame.
-  const frame = reduced || pos === START ? STILL : deskFrame(pos, LENGTH);
+  const frame =
+    reduced || pos === START ? (small ? SMALL_STILL : STILL) : deskFrame(pos, LENGTH, small ? SMALL_LIMITS : LIMITS);
   const activeKey = frame.activeIndex === null ? null : DESK_SCRIPT[frame.activeIndex].key;
-
-  const togglePaused = () => {
-    if (shownPaused) {
-      setUserPaused(false);
-      setOverride(true);
-    } else {
-      setUserPaused(true);
-    }
-  };
 
   const panelClass = ['desk__panel', running ? '' : 'is-paused', reduced ? 'is-still' : ''].filter(Boolean).join(' ');
 
   return (
     <figure className="desk" ref={figureRef}>
       <div
-        ref={panelRef}
         className={panelClass}
         onPointerEnter={(event) => event.pointerType === 'mouse' && setHovered(true)}
-        onPointerLeave={() => {
-          setHovered(false);
-          if (!focused) setOverride(false);
-        }}
-        onFocus={(event) => setFocused(isFocusVisible(event.target))}
-        onBlur={(event) => {
-          if (!panelRef.current?.contains(event.relatedTarget as Node | null)) {
-            setFocused(false);
-            if (!hovered) setOverride(false);
-          }
-        }}
+        onPointerLeave={() => setHovered(false)}
       >
         <div className="desk__agents" aria-hidden="true">
           <div className="desk__zone-head">
@@ -211,11 +186,11 @@ export function DeskDemo() {
               <button
                 type="button"
                 className="desk__toggle"
-                aria-label={shownPaused ? 'Play animation' : 'Pause animation'}
-                aria-pressed={shownPaused}
-                onClick={togglePaused}
+                aria-label="Pause animation"
+                aria-pressed={userPaused}
+                onClick={() => setUserPaused((paused) => !paused)}
               >
-                <span className={shownPaused ? 'desk__icon desk__icon--play' : 'desk__icon desk__icon--pause'} />
+                <span className={userPaused ? 'desk__icon desk__icon--play' : 'desk__icon desk__icon--pause'} />
               </button>
             )}
           </div>
@@ -227,7 +202,7 @@ export function DeskDemo() {
                 .join(' ');
               return (
                 <li key={line.id} data-flip-id={line.id} className={className}>
-                  <span className="record__time">{ticket.time}</span>
+                  <span className="record__time">{recordTime(ticket.time, line.id, LENGTH)}</span>
                   <span className="record__agent">{ticket.agent}</span>
                   <span className="record__action">{ticket.tool}</span>
                   <span className={`record__decision record__decision--${ticket.decision.toLowerCase()}`}>

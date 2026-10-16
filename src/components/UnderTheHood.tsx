@@ -52,7 +52,7 @@ function RulesFile() {
   );
 }
 
-// The sample audit record, column-aligned exactly as published.
+// A hand-written sample audit record (not captured output), column-aligned by hand.
 const RECORD_LINES: { text: string; decision: string; redacted?: boolean }[] = [
   {
     text: '2026-03-04T09:12:01Z  agent=release-bot    tool=github.push     args={repo: "acme/web", branch: "agent/bump-deps"}                ',
@@ -112,7 +112,7 @@ function RecordFile() {
 function CodePanel({ label, caption, children }: { label: string; caption: string; children: ReactNode }) {
   return (
     <figure className="code-figure">
-      <pre className="code-panel" tabIndex={0} aria-label={label}>
+      <pre className="code-panel" tabIndex={0} role="region" aria-label={label}>
         {children}
       </pre>
       <figcaption className="code-figure__caption">{caption}</figcaption>
@@ -145,8 +145,8 @@ export function UnderTheHood() {
     <section id="under-the-hood" className="section hood on-dark" aria-labelledby="hood-title">
       <div className="container">
         <div className="section-head">
-          <h2 id="hood-title">See exactly what your security team will see</h2>
-          <p>Two files tell the whole story: the rules an agent works under, and the record of what it did.</p>
+          <h2 id="hood-title">See what your security team will see</h2>
+          <p>Two files show how it works: the rules an agent works under, and the record of what it did.</p>
         </div>
 
         <div className="tabs" role="tablist" aria-label="Example files" onKeyDown={onKeyDown}>

@@ -46,6 +46,12 @@
   color: var(--mist);
 }
 
+/* Underlined so the address reads as a link without relying on color. */
+.site-footer__contact a {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
 @media (max-width: 860px) {
   .site-footer__inner {
     flex-direction: column;

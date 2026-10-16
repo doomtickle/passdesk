@@ -4,6 +4,7 @@ import {
   deskFrame,
   nextPosition,
   phaseDuration,
+  recordTime,
   startPosition,
   stillFrame,
   TIMING,
@@ -138,4 +139,42 @@ test('each step lasts about 2.8s and the last one holds 1.5s longer', () => {
   assert.equal(stepLength(5), 2800 + TIMING.hold);
   assert.equal(stepLength(11), 2800 + TIMING.hold);
   assert.equal(phaseDuration({ step: 5, phase: 'enter' }, LENGTH), TIMING.enter);
+});
+
+test('record times move on 10 minutes per loop and wrap at midnight', () => {
+  assert.equal(recordTime('09:12', 0, LENGTH), '09:12');
+  assert.equal(recordTime('09:21', 5, LENGTH), '09:21');
+  assert.equal(recordTime('09:12', 6, LENGTH), '09:22');
+  assert.equal(recordTime('09:21', 11, LENGTH), '09:31');
+  assert.equal(recordTime('09:55', 6, LENGTH), '10:05');
+  assert.equal(recordTime('23:55', 6, LENGTH), '00:05');
+  assert.equal(recordTime('09:12', 6, LENGTH, 30), '09:42');
+});
+
+test('record times never go backwards from the still frame into the loop', () => {
+  const times = ['09:12', '09:12', '09:13', '09:14', '09:15', '09:21'];
+  const shown = (frame: { records: { id: number; index: number }[] }) =>
+    frame.records.map((line) => recordTime(times[line.index], line.id, LENGTH));
+
+  // Still frame, then the first two loops a phase at a time: newest on top, so
+  // each frame must read non-increasing top to bottom.
+  const frames = [stillFrame(LENGTH)];
+  let pos = startPosition(LENGTH);
+  for (let i = 0; i < 4 * LENGTH * 2; i++) {
+    pos = nextPosition(pos);
+    frames.push(deskFrame(pos, LENGTH));
+  }
+  for (const frame of frames) {
+    const lines = shown(frame);
+    for (let i = 1; i < lines.length; i++) {
+      assert.equal(lines[i - 1] >= lines[i], true, `${lines.join(' ')} is out of order`);
+    }
+  }
+  assert.deepEqual(shown(stillFrame(LENGTH)), ['09:21', '09:15', '09:14', '09:13']);
+});
+
+test('the still frame honours a smaller slip limit', () => {
+  const frame = stillFrame(LENGTH, { maxSlips: 2, maxRecords: 4 });
+  assert.deepEqual(indexes(frame.slips), [5, 4]);
+  assert.equal(frame.records.length, 4);
 });
