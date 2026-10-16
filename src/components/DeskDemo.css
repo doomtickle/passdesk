@@ -455,13 +455,17 @@
     padding: 12px;
   }
 
-  /* Stamp moves to its own row above the request text so the slip's full
-     width is free for the agent name, request and decline reason. */
+  /* Stamp moves above the slip body, kept at its natural size; the body
+     wraps to its own full-width row below so the agent name, request and
+     decline reason get the slip's full width. */
   .ticket .stamp {
     order: -1;
-    flex-basis: 100%;
-    justify-self: end;
+    flex: 0 0 auto;
     margin-left: auto;
+  }
+
+  .ticket__body {
+    flex-basis: 100%;
   }
 
   .record {
