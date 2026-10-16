@@ -21,24 +21,13 @@ at runtime.
 
 ## Fonts
 
-The design uses Schibsted Grotesk and JetBrains Mono, normally self-hosted via
+The design uses Schibsted Grotesk and JetBrains Mono, self-hosted via
 `@fontsource-variable/schibsted-grotesk` and `@fontsource/jetbrains-mono`. Both are
-temporarily removed from `package.json` because their current `package-lock.json`
-entries lack integrity hashes, which blocks offline installs in this environment.
-Until they're re-added, `--font-sans` and `--font-mono` in
-`src/styles/tokens.css` fall back to system fonts (`ui-sans-serif`/`system-ui` and
-`ui-monospace`/`'SF Mono'`), so the page still renders correctly, just without the
-custom typefaces.
-
-To restore them, on a machine with npm registry access:
-
-```bash
-npm install @fontsource-variable/schibsted-grotesk @fontsource/jetbrains-mono
-```
-
-then import them in `src/main.tsx` (`import '@fontsource-variable/schibsted-grotesk';`
-and `import '@fontsource/jetbrains-mono/400.css';`), which regenerates lockfile
-entries with proper integrity hashes.
+installed and imported in `src/main.tsx`, so the fonts ship as part of the build
+with no external network requests at runtime. `--font-sans` and `--font-mono` in
+`src/styles/tokens.css` reference the font names those packages declare
+(`'Schibsted Grotesk Variable'` and `'JetBrains Mono'`), falling back to system
+fonts if a build ever omits the imports.
 
 ## Where things live
 
