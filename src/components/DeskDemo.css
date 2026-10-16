@@ -12,16 +12,20 @@
   gap: 24px;
   position: relative;
   padding: 24px;
-  background: var(--lobby-raised);
+  background: var(--glass);
   border: 1px solid var(--rule-on-dark);
   border-radius: var(--radius-panel);
+  box-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.6);
   color: var(--paper);
 }
 
 .desk__zone-label {
-  font-size: var(--text-14);
-  font-weight: 600;
-  color: var(--mist);
+  font-family: var(--font-mono);
+  font-size: var(--text-13);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(246, 247, 243, 0.55);
 }
 
 .desk__zone-head {
@@ -32,12 +36,13 @@
 }
 
 .desk__chip {
-  padding: 2px 8px;
-  border: 1px solid var(--rule-on-dark);
-  border-radius: var(--radius-control);
-  font-size: 0.8125rem;
+  padding: 2px 9px;
+  border: 1px solid rgba(127, 224, 194, 0.35);
+  border-radius: 999px;
+  background: rgba(127, 224, 194, 0.12);
+  font-size: var(--text-13);
   font-weight: 600;
-  color: var(--paper);
+  color: #9ff0d4;
 }
 
 /* Agents: request slips */
@@ -66,9 +71,11 @@
   align-items: center;
   gap: 12px;
   padding: 14px 16px;
-  background: var(--paper);
-  color: var(--ink);
+  background: #fbfaf4;
+  color: #0b211a;
+  border: 1px solid rgba(11, 33, 26, 0.08);
   border-radius: var(--radius-control);
+  box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.5);
   transform-origin: 50% 50%;
 }
 
@@ -196,38 +203,43 @@
   list-style: none;
 }
 
+/* Dim outlines; the key that does the job turns brass. It never leaves the rack. */
 .key-tag {
   position: relative;
   display: flex;
   align-items: center;
-  min-height: 32px;
+  min-height: 34px;
   padding: 4px 10px 4px 26px;
-  background: var(--brass);
-  color: var(--ink);
-  border-radius: var(--radius-control);
+  background: transparent;
+  color: rgba(246, 247, 243, 0.55);
+  border: 1px solid var(--rule-on-dark);
+  border-radius: 8px;
   font-size: var(--text-14);
-  font-weight: 650;
+  font-weight: 600;
   line-height: 1.2;
-  transition: transform 300ms ease-out;
+  transition:
+    color 300ms ease-out,
+    border-color 300ms ease-out,
+    background-color 300ms ease-out,
+    transform 300ms ease-out;
 }
 
-/* Brass glow, faded in on its own layer so only opacity animates. */
+/* The brass fill, on its own layer so only opacity animates. */
 .key-tag::after {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  box-shadow:
-    0 0 0 2px var(--string-light),
-    0 6px 18px -2px rgba(227, 199, 127, 0.55);
+  background: rgba(225, 182, 90, 0.1);
   opacity: 0;
   transition: opacity 300ms ease-out;
   pointer-events: none;
 }
 
-/* The key that does the job lifts in place. It never leaves the rack. */
 .key-tag.is-active {
-  transform: translateY(-3px);
+  color: var(--string-light);
+  border-color: var(--brass);
+  transform: translateY(-2px);
   transition-duration: 200ms;
 }
 
@@ -246,8 +258,8 @@
   height: 9px;
   margin-top: -4.5px;
   border-radius: 50%;
-  background: var(--lobby-raised);
-  box-shadow: inset 0 0 0 1.5px rgba(8, 42, 32, 0.45);
+  border: 1.5px solid currentColor;
+  opacity: 0.7;
 }
 
 /* Record */

@@ -36,7 +36,8 @@ export function Faq() {
     <section id="faq" className="section section--paper" aria-labelledby="faq-title">
       <div className="container grid">
         <div className="faq__head">
-          <h2 id="faq-title">Questions</h2>
+          <p className="eyebrow">Questions</p>
+          <h2 id="faq-title">Straight answers</h2>
         </div>
         <div className="faq">
           {QUESTIONS.map((item) => (

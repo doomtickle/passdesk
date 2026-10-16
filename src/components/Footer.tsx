@@ -5,7 +5,9 @@ import './Footer.css';
 const LINKS = [
   { href: '#how', label: 'How it works' },
   { href: '#under-the-hood', label: 'For security' },
+  { href: '#pricing', label: 'Pricing' },
   { href: '#faq', label: 'FAQ' },
+  { href: 'https://github.com/doomtickle/passdesk-broker', label: 'Source' },
   { href: '#get-access', label: 'Request early access' },
 ];
 

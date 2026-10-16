@@ -1,5 +1,8 @@
 .faq__head {
   grid-column: 1 / span 4;
+  display: grid;
+  gap: 18px;
+  align-content: start;
   margin-bottom: 40px;
 }
 

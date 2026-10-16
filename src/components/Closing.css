@@ -6,7 +6,11 @@
 }
 
 .closing__inner h2 {
-  max-width: 16ch;
+  max-width: 18ch;
+}
+
+.closing__accent {
+  color: var(--brass-text);
 }
 
 .closing__text {

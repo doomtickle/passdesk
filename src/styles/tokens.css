@@ -2,30 +2,41 @@
 :root {
   --lobby: #0e3b2e;
   --lobby-raised: #124638;
+  --lobby-deep: #092a21;
   --ink: #082a20;
-  --brass: #c8a24a;
-  --paper: #f3f5f1;
+  --brass: #e1b65a;
+  --brass-hover: #eac46c;
+  --brass-text: #eac46c;
+  --paper: #f6f7f3;
+  --paper-2: #eef2ec;
   --white: #ffffff;
-  --slate: #5b6b64;
-  --mist: rgba(243, 245, 241, 0.72);
-  --approve: #2f7d5b;
+  --slate: #52635c;
+  --mist: rgba(246, 247, 243, 0.72);
+  --approve: #1f7a58;
   --decline: #a3312a;
-  --approve-light: #7cc4a0;
-  --decline-light: #f39b90;
-  --string-light: #e3c77f;
-  --rule-on-dark: rgba(243, 245, 241, 0.14);
+  --approve-light: #7fe0c2;
+  --decline-light: #ffb0a4;
+  --string-light: #f2d58c;
+  --rule-on-dark: rgba(246, 247, 243, 0.1);
+  --glass: rgba(246, 247, 243, 0.035);
+
+  /* The dark stage: one quiet vertical gradient, no bloom. */
+  --stage: linear-gradient(180deg, #0b3328 0%, #092a21 60%, #07231b 100%);
 
   /* Surfaces and text for the light sections; swapped in dark mode below. */
   --bg-paper: var(--paper);
+  --bg-paper-2: var(--paper-2);
   --bg-white: var(--white);
-  --fg: var(--ink);
+  --fg: #0b211a;
   --fg-muted: var(--slate);
-  --rule: #d9dfda;
+  --rule: #dce4de;
+  --accent-text: var(--approve);
 
   /* Type */
   --font-sans: 'Schibsted Grotesk Variable', 'Schibsted Grotesk', ui-sans-serif, system-ui, -apple-system,
     'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --text-13: 0.8125rem;
   --text-14: 0.875rem;
   --text-16: 1rem;
   --text-18: 1.125rem;
@@ -34,18 +45,18 @@
   --text-32: 2rem;
   --text-44: 2.75rem;
   --text-60: 3.75rem;
-  --text-hero: clamp(2.75rem, 6.8vw, 5.5rem);
-  --text-h2: clamp(2rem, 4.2vw, 3.25rem);
+  --text-hero: clamp(2.75rem, 6vw, 5rem);
+  --text-h2: clamp(2rem, 3.6vw, 3rem);
   --measure: 68ch;
 
   /* Layout */
   --content-max: 1200px;
   --gutter: 24px;
   --page-pad: 32px;
-  --section-pad: 128px;
+  --section-pad: 112px;
   --header-h: 72px;
-  --radius-control: 6px;
-  --radius-panel: 14px;
+  --radius-control: 10px;
+  --radius-panel: 16px;
 }
 
 @media (max-width: 720px) {
@@ -60,9 +71,11 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg-paper: #0a2219;
+    --bg-paper-2: #081d16;
     --bg-white: #0c281f;
     --fg: #e8eeea;
     --fg-muted: #9db0a7;
-    --rule: rgba(232, 238, 234, 0.14);
+    --rule: rgba(232, 238, 234, 0.12);
+    --accent-text: var(--approve-light);
   }
 }

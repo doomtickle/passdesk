@@ -4,6 +4,7 @@ import { Problem } from './components/Problem';
 import { HowItWorks } from './components/HowItWorks';
 import { Audiences } from './components/Audiences';
 import { UnderTheHood } from './components/UnderTheHood';
+import { Pricing } from './components/Pricing';
 import { Availability } from './components/Availability';
 import { Faq } from './components/Faq';
 import { Closing } from './components/Closing';
@@ -22,6 +23,7 @@ export function App() {
         <HowItWorks />
         <Audiences />
         <UnderTheHood />
+        <Pricing />
         <Availability />
         <Faq />
         <Closing />

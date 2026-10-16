@@ -1,5 +1,5 @@
 .hero {
-  padding-top: calc(var(--header-h) + 96px);
+  padding-top: calc(var(--header-h) + 88px);
   padding-bottom: var(--section-pad);
 }
 
@@ -11,7 +11,7 @@
 .hero__copy {
   grid-column: 1 / span 6;
   display: grid;
-  gap: 32px;
+  gap: 28px;
   align-content: start;
 }
 
@@ -22,22 +22,52 @@
 
 .hero__title {
   font-size: var(--text-hero);
-  font-weight: 750;
+  font-weight: 800;
   letter-spacing: -0.03em;
-  line-height: 0.98;
+  line-height: 1;
+}
+
+.hero__accent {
+  display: block;
+  color: var(--brass-text);
 }
 
 .hero__lede {
   font-size: var(--text-21);
   line-height: 1.55;
-  color: var(--mist);
+  color: rgba(246, 247, 243, 0.78);
   max-width: 34em;
 }
 
-.hero__note {
-  margin-top: -16px;
+.hero__proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
   font-size: var(--text-14);
-  color: var(--mist);
+  color: rgba(246, 247, 243, 0.62);
+}
+
+.hero__proof li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero__proof li::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--approve-light);
+}
+
+.hero__note {
+  margin-top: -12px;
+  font-size: var(--text-14);
+  color: rgba(246, 247, 243, 0.5);
 }
 
 @media (max-width: 1024px) {

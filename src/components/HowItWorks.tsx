@@ -21,9 +21,10 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section id="how" className="section section--white" aria-labelledby="how-title">
+    <section id="how" className="section section--paper-2" aria-labelledby="how-title">
       <div className="container">
         <div className="section-head">
+          <p className="eyebrow">How it works</p>
           <h2 id="how-title">How a request goes through the desk</h2>
         </div>
 
@@ -42,19 +43,22 @@ export function HowItWorks() {
         <div className="refusal grid">
           <div className="refusal__copy">
             <h3>When the answer is no</h3>
-            <p>An agent tries to push straight to main. Passdesk declines and tells it what to do instead.</p>
+            <p>
+              An agent tries to push straight to main. Passdesk declines and tells it what to do instead. The
+              agent did not need to know the rule in advance; it heard “no” and why.
+            </p>
           </div>
           <figure className="refusal__exchange">
-            <dl className="exchange">
+            <dl className="exchange on-dark">
               <div className="exchange__turn">
-                <dt>Agent</dt>
-                <dd>Push to main on acme/web</dd>
+                <dt>agent</dt>
+                <dd>git_push repo=acme/web branch=main</dd>
               </div>
               <div className="exchange__turn exchange__turn--declined">
-                <dt>Passdesk</dt>
+                <dt>passdesk</dt>
                 <dd>
-                  <strong>Declined:</strong> main is a protected branch. Push to a branch starting with agent/
-                  instead.
+                  <strong>DENIED</strong> by broker policy: branch main is protected (main). Use a branch starting
+                  with agent/ instead.
                 </dd>
               </div>
             </dl>

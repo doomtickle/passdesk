@@ -126,9 +126,10 @@ export function UnderTheHood() {
   };
 
   return (
-    <section id="under-the-hood" className="section hood on-dark" aria-labelledby="hood-title">
+    <section id="under-the-hood" className="section section--dark hood on-dark" aria-labelledby="hood-title">
       <div className="container">
         <div className="section-head">
+          <p className="eyebrow">Under the hood</p>
           <h2 id="hood-title">See what your security team will see</h2>
           <p>Two files show how it works: the rules an agent works under, and the record of what it did.</p>
         </div>
@@ -177,6 +178,30 @@ export function UnderTheHood() {
           <CodePanel label="Sample record" caption="Sample record (illustrative, not captured output)">
             <RecordFile />
           </CodePanel>
+        </div>
+
+        <div className="hood__facts">
+          <div className="card card--glass hood__fact">
+            <p className="eyebrow">Credentials</p>
+            <p>
+              Your GitHub token is attached by the sandbox's proxy. Passdesk's own process never reads it, and no
+              agent sandbox receives it.
+            </p>
+          </div>
+          <div className="card card--glass hood__fact">
+            <p className="eyebrow">Supply chain</p>
+            <p>
+              Packages arrive as lockfile-pinned, hash-verified tarballs and wheels. Nothing from the workspace is
+              ever executed inside Passdesk.
+            </p>
+          </div>
+          <div className="card card--glass hood__fact">
+            <p className="eyebrow">Guardrails</p>
+            <p>
+              Pull requests open as drafts by default. Force-pushes and branch deletion aren't possible through
+              Passdesk. Jira is read-only.
+            </p>
+          </div>
         </div>
       </div>
     </section>

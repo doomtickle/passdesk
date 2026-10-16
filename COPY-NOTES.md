@@ -48,6 +48,22 @@ lives in `src/components/`; the file for each section is named below.
   machine. Rules are built into Passdesk's image at build time, so
   agents can't change them at runtime; changing a rule means rebuilding
   and restarting.
+- **S11** — Implementation facts from the public repository: Apache-2.0,
+  standard-library Python only, runs on the user's own machine, works
+  with Claude Code today.
+
+## Passdesk Pro (private beta, P1–P2)
+
+Sold separately; not yet on sale. Every Pro claim is labelled "Early
+access" or "private beta" and dated "early 2027".
+
+- **P1** — Approvals: `git_push` and `github_create_pr` are held until a
+  person approves them from the console (`factory approvals`) or, after a
+  webhook notification, declines them; the decision and the approver's
+  name go on the audit record. Built and tested; in private beta.
+- **P2** — Pricing as planned: Pro Solo $79 a year for one approver, Pro
+  Team $490 a year for up to ten approvers, unlimited agents on both.
+  Stated as a starting point that may change before launch.
 
 ## Roadmap items (R1–R6)
 
@@ -94,10 +110,15 @@ lives in `src/components/`; the file for each section is named below.
 - "We'll only email you about Passdesk early access." — a commitment about
   the sign-up list, not a product claim.
 
+- Eyebrow "Open source gateway · Apache-2.0" and the proof line under
+  the form ("Runs on your machine", "Standard-library Python, open
+  source", "Works with Claude Code today") — **S11** (the last also
+  **S10**). The brass second line of the headline is styling, not a claim.
+
 ### 2. Problem (`Problem.tsx`)
 - Body copy describes the baseline risk of handing an agent a token, not
   Passdesk.
-- Table, "With Passdesk" column:
+- Two cards; the "With Passdesk" card:
   - "Passdesk, which uses them on the agent's behalf" — **S1**.
   - "Only to Passdesk; apart from its model provider, it has no other way
     out" — **S2**.
@@ -118,9 +139,14 @@ lives in `src/components/`; the file for each section is named below.
   common secret formats, and blocked if one turns up" — **S5**; "Text that
   comes back from the web, Jira or Gemini is cleaned and marked as
   untrusted" — **S5**; "Every call goes on the record" — **S7**.
-- "When the answer is no" example (push to main declined, hint to use a
-  branch starting with `agent/`) — **S4** (protected branches, required
-  branch prefix). Captioned "Illustration"; `acme/web` is a placeholder.
+- "When the answer is no" example, drawn as the exchange the agent sees:
+  the tool call (`git_push repo=acme/web branch=main`) and the gateway's
+  answer, which uses the real refusal prefix ("DENIED by broker policy:")
+  and the real protected-branch reason; the hint to use a branch starting
+  with `agent/` is illustrative (deployments choose the prefix) — **S4**
+  (protected branches, required branch prefix). Captioned "Illustration";
+  `acme/web` is a placeholder. "It heard “no” and why" — **S4** (reason on
+  a denial).
 
 ### 4. Audiences (`Audiences.tsx`)
 - "For engineering": the tool list ("fetch and push code, open pull
@@ -159,6 +185,24 @@ lives in `src/components/`; the file for each section is named below.
   denial — **S4**; the `jira.get_issue` line is an illustrative example of
   a Jira read call (**S8** Jira, read-only) — action name illustrative; no
   line carries a credential — **S1**.
+- The three facts under the files: "Credentials" (token attached by the
+  sandbox's proxy; Passdesk's process never reads it; no agent sandbox
+  receives it) — **S1**; "Supply chain" (lockfile-pinned, hash-verified
+  tarballs and wheels; nothing from the workspace executed) — **S6**;
+  "Guardrails" (draft PRs by default, no force-push or branch deletion,
+  Jira read-only) — **S9**.
+
+### 5b. Pricing (`Pricing.tsx`)
+- "The gateway is free" and the Free column — **S11** (license) plus
+  **S1**, **S3**, **S4**/**S9**, **S5**, **S6**, **S7** for its six lines.
+- "The approval gate is Pro", the intro paragraph and the Pro Solo column
+  — **P1**; the two lines marked "coming" — **R6** (per-agent rules) and
+  **R2** (hash-chained audit export).
+- Prices, "Early access" badge, "private beta and ships in early 2027",
+  "may change before launch" — **P2**.
+- Pro Team column: "One key for the team", support terms, "No SLA, no
+  custom work", "No enterprise tier, on purpose" — **P2** (the offer as
+  planned, stated as policy, not as a shipped capability).
 
 ### 6. Availability (`Availability.tsx`)
 - "Works today" list — **S8**, the full list; the "Jira (read your assigned
@@ -167,7 +211,8 @@ lives in `src/components/`; the file for each section is named below.
   branch deletion aren't possible; Jira is read-only." — **S9**.
 - "Coming soon" list — **R1** ("Any MCP client, outside Docker sandboxes"),
   **R6** (per-agent rules), **R2**, **R3**, **R4**, **R5**, in that order.
-  This is the only place roadmap items are listed (the FAQ restates R1).
+  The FAQ restates R1, and the Pricing section marks R6 and R2 as
+  "coming" in the Pro Solo column; nowhere else lists roadmap items.
 
 ### 7. FAQ (`Faq.tsx`)
 - GitHub token, "Passdesk's sandbox holds the credentials" — **S1** + **S3**.
@@ -195,6 +240,8 @@ lives in `src/components/`; the file for each section is named below.
 - "Tools", never "skills".
 - GitHub, npm, PyPI, Jira and Gemini appear only as plain text, never as
   logos, and never phrased as endorsements.
-- No fake CLI transcript or terminal: the refusal example is a plain-language
-  exchange, since no Passdesk CLI is a shipped product surface.
+- No fake CLI or product screens: the refusal example shows only a tool
+  call and the gateway's denial text in the format the gateway really
+  returns, captioned as an illustration; nothing on the page depicts a
+  Passdesk command-line or interface that does not ship.
 - No quickstart commands or package names: the quickstart ships at launch.

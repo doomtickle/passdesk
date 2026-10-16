@@ -5,6 +5,7 @@ import './Header.css';
 const NAV = [
   { href: '#how', label: 'How it works' },
   { href: '#under-the-hood', label: 'For security' },
+  { href: '#pricing', label: 'Pricing' },
   { href: '#faq', label: 'FAQ' },
 ];
 

@@ -11,36 +11,25 @@
   display: grid;
   align-content: start;
   gap: 12px;
-  padding-right: 8px;
-}
-
-/* The thin rule that connects the step numbers. */
-.step::before {
-  content: '';
-  position: absolute;
-  top: 20px;
-  left: 0;
-  right: calc(-1 * var(--gutter));
-  height: 1px;
-  background: var(--rule);
-}
-
-.step:last-child::before {
-  right: 0;
+  padding: 28px;
+  background: var(--bg-white);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-panel);
+  box-shadow: 0 1px 2px rgba(11, 33, 26, 0.04);
 }
 
 .step__number {
-  position: relative;
   display: grid;
   place-items: center;
   width: 40px;
   height: 40px;
-  margin-bottom: 16px;
-  border: 1px solid var(--fg);
+  margin-bottom: 8px;
+  border: 1px solid var(--brass);
   border-radius: 50%;
-  background: var(--bg-white);
+  background: var(--lobby);
+  color: var(--paper);
   font-size: var(--text-16);
-  font-weight: 650;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
 
@@ -56,9 +45,8 @@
 /* A single highlighted example of a refusal. */
 .refusal {
   margin-top: 96px;
-  padding-top: 48px;
-  border-top: 2px solid var(--fg);
   row-gap: 32px;
+  align-items: center;
 }
 
 .refusal__copy {
@@ -83,57 +71,55 @@
   gap: 12px;
 }
 
+/* The exchange is drawn as the terminal the agent sees. */
 .exchange {
+  display: grid;
+  gap: 12px;
   margin: 0;
+  padding: 24px;
+  background: var(--lobby-deep);
+  color: var(--paper);
+  border: 1px solid var(--rule-on-dark);
+  border-radius: var(--radius-panel);
+  font-family: var(--font-mono);
+  font-size: var(--text-14);
+  line-height: 1.5;
 }
 
 .exchange__turn {
   display: grid;
-  grid-template-columns: 7.5rem minmax(0, 1fr);
-  gap: 16px;
-  padding: 20px 0 20px 20px;
-  border-left: 3px solid var(--rule);
-}
-
-.exchange__turn + .exchange__turn {
-  margin-top: 8px;
+  grid-template-columns: 5rem minmax(0, 1fr);
+  gap: 12px;
+  padding: 4px 0;
 }
 
 .exchange__turn--declined {
-  border-left-color: var(--decline);
+  padding: 14px;
+  background: rgba(255, 138, 120, 0.1);
+  border: 1px solid rgba(255, 138, 120, 0.3);
+  border-radius: 10px;
 }
 
 .exchange dt {
-  font-size: var(--text-14);
-  font-weight: 650;
-  line-height: 1.9;
-  color: var(--fg-muted);
+  color: var(--approve-light);
+}
+
+.exchange__turn--declined dt {
+  color: var(--decline-light);
 }
 
 .exchange dd {
   margin: 0;
-  font-size: var(--text-21);
-  line-height: 1.45;
 }
 
 .exchange strong {
   font-weight: 700;
-  color: var(--decline);
+  color: var(--decline-light);
 }
 
 .refusal__caption {
   font-size: var(--text-14);
   color: var(--fg-muted);
-}
-
-@media (prefers-color-scheme: dark) {
-  .exchange strong {
-    color: var(--decline-light);
-  }
-
-  .exchange__turn--declined {
-    border-left-color: var(--decline-light);
-  }
 }
 
 @media (max-width: 960px) {
@@ -143,32 +129,8 @@
   }
 
   .step {
-    padding: 0 0 0 64px;
     gap: 8px;
-  }
-
-  .step::before {
-    top: 40px;
-    bottom: -40px;
-    left: 20px;
-    right: auto;
-    width: 1px;
-    height: auto;
-  }
-
-  .step:last-child::before {
-    display: none;
-  }
-
-  .step__number {
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: 0;
-  }
-
-  .step__title {
-    padding-top: 6px;
+    padding: 24px;
   }
 
   .refusal__copy,
@@ -177,15 +139,20 @@
   }
 }
 
+@media (max-width: 960px) {
+  .steps {
+    gap: 16px;
+  }
+}
+
 @media (max-width: 520px) {
+  .exchange {
+    padding: 16px;
+  }
+
   .exchange__turn {
     grid-template-columns: minmax(0, 1fr);
     gap: 4px;
-    padding: 16px 0 16px 16px;
-  }
-
-  .exchange dd {
-    font-size: var(--text-18);
   }
 
   .refusal {

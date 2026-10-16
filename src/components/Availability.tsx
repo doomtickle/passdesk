@@ -23,9 +23,10 @@ const NEXT = [
 
 export function Availability() {
   return (
-    <section id="availability" className="section section--white" aria-labelledby="availability-title">
+    <section id="availability" className="section section--paper-2" aria-labelledby="availability-title">
       <div className="container">
         <div className="section-head">
+          <p className="eyebrow">Availability</p>
           <h2 id="availability-title">What works today, and what's next</h2>
         </div>
         <div className="availability">
