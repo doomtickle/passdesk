@@ -57,3 +57,77 @@
     width: 100%;
   }
 }
+
+.waitlist__company-row {
+  display: grid;
+  gap: 4px;
+}
+
+.waitlist__label--company {
+  font-size: var(--text-14);
+  font-weight: 500;
+  color: var(--mist);
+  opacity: 0.85;
+}
+
+.waitlist__input--company {
+  min-height: 44px;
+  font-size: var(--text-16);
+  max-width: 320px;
+}
+
+.waitlist__honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.waitlist__status {
+  min-height: 1.4em;
+}
+
+.waitlist__error {
+  margin: 0;
+  color: #f4a79c;
+  font-size: var(--text-16);
+}
+
+.waitlist__error a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.waitlist__success {
+  display: grid;
+  gap: 8px;
+}
+
+.waitlist__success-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: var(--text-18);
+  font-weight: 600;
+  color: var(--paper);
+}
+
+.waitlist__success-mark {
+  color: var(--brass);
+  flex: none;
+}
+
+.waitlist__success-text {
+  margin: 0;
+  color: var(--mist);
+  font-size: var(--text-16);
+}
+
+.waitlist__success:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 4px;
+  border-radius: var(--radius-control);
+}

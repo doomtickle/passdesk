@@ -12,6 +12,7 @@ npm run dev        # local dev server with hot reload
 npm run build      # type-check, then build the static site into dist/
 npm run preview    # serve the built dist/ locally
 npm run typecheck  # tsc --noEmit only
+npm test           # run src/lib tests with node --test
 ```
 
 The build output in `dist/` is fully static. Fonts are bundled from npm
@@ -30,8 +31,11 @@ makes no external network requests at runtime.
 - `src/styles/tokens.css` — design tokens: colors, type scale, spacing, radii, and the
   dark-mode overrides for the light sections.
 - `src/styles/global.css` — base element styles, layout helpers, buttons, focus rings.
-- `src/config.ts` — `CONTACT_EMAIL`, used in the footer. It's a placeholder
-  (`hello@passdesk.example`) and must be replaced before launch.
+- `src/lib/waitlist.ts` — email validation and submission logic for the waitlist
+  form, framework-free and unit-tested (`src/lib/waitlist.test.ts`).
+- `src/config.ts` — `CONTACT_EMAIL`, used in the footer and in the waitlist
+  form's error states. It's a placeholder (`hello@passdesk.example`) and must
+  be replaced before launch.
 - `COPY-NOTES.md` — every claim on the page mapped to the shipped capability (S1–S8)
   or roadmap item (R1–R5) that backs it.
 
@@ -43,8 +47,28 @@ monospace text. Keep the spacing when you edit them.
 
 ## Sign-up form
 
-See `src/components/WaitlistForm.tsx`. It is currently a visual stub: submitting does
-nothing. The sign-up endpoint is configured in a later step.
+The waitlist form (`src/components/WaitlistForm.tsx`, submission logic in
+`src/lib/waitlist.ts`) posts to whatever endpoint `VITE_WAITLIST_ENDPOINT` points
+at. To configure it:
+
+1. Copy `.env.example` to `.env.local`.
+2. Set `VITE_WAITLIST_ENDPOINT` to any endpoint that accepts a form POST and
+   returns a 2xx status — [Formspree](https://formspree.io) and
+   [Getform](https://getform.io) both work out of the box, e.g.
+   `VITE_WAITLIST_ENDPOINT=https://formspree.io/f/your-form-id`.
+3. Restart `npm run dev` (Vite only reads `.env*` files at startup).
+
+The form POSTs `email`, `company` (if filled in) and `source` (`hero` or
+`closing`) as `FormData`, with an `Accept: application/json` header.
+
+It also has a honeypot field (`website`), hidden off-screen and unreachable by
+keyboard or screen reader. Real visitors never see or fill it in; if it has a
+value on submit, the request is silently dropped as a bot without ever
+reaching the network.
+
+If `VITE_WAITLIST_ENDPOINT` is unset, the form shows a message asking people to
+email `CONTACT_EMAIL` directly instead of submitting, and `vite build` prints a
+warning (it does not fail the build) so this doesn't ship unnoticed.
 
 ## Hero demo
 
