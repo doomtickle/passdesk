@@ -1,0 +1,194 @@
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gutter);
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding-right: 8px;
+}
+
+/* The thin rule that connects the step numbers. */
+.step::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: calc(-1 * var(--gutter));
+  height: 1px;
+  background: var(--rule);
+}
+
+.step:last-child::before {
+  right: 0;
+}
+
+.step__number {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 16px;
+  border: 1px solid var(--fg);
+  border-radius: 50%;
+  background: var(--bg-white);
+  font-size: var(--text-16);
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+.step__title {
+  font-size: var(--text-21);
+}
+
+.step__body {
+  font-size: var(--text-16);
+  color: var(--fg-muted);
+}
+
+/* A single highlighted example of a refusal. */
+.refusal {
+  margin-top: 96px;
+  padding-top: 48px;
+  border-top: 2px solid var(--fg);
+  row-gap: 32px;
+}
+
+.refusal__copy {
+  grid-column: 1 / span 5;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.refusal__copy h3 {
+  font-size: var(--text-32);
+  letter-spacing: -0.02em;
+}
+
+.refusal__copy p {
+  color: var(--fg-muted);
+}
+
+.refusal__exchange {
+  grid-column: 7 / span 6;
+  display: grid;
+  gap: 12px;
+}
+
+.exchange {
+  margin: 0;
+}
+
+.exchange__turn {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 16px;
+  padding: 20px 0 20px 20px;
+  border-left: 3px solid var(--rule);
+}
+
+.exchange__turn + .exchange__turn {
+  margin-top: 8px;
+}
+
+.exchange__turn--declined {
+  border-left-color: var(--decline);
+}
+
+.exchange dt {
+  font-size: var(--text-14);
+  font-weight: 650;
+  line-height: 1.9;
+  color: var(--fg-muted);
+}
+
+.exchange dd {
+  margin: 0;
+  font-size: var(--text-21);
+  line-height: 1.45;
+}
+
+.exchange strong {
+  font-weight: 700;
+  color: var(--decline);
+}
+
+.refusal__caption {
+  font-size: var(--text-14);
+  color: var(--fg-muted);
+}
+
+@media (prefers-color-scheme: dark) {
+  .exchange strong {
+    color: var(--decline-light);
+  }
+
+  .exchange__turn--declined {
+    border-left-color: var(--decline-light);
+  }
+}
+
+@media (max-width: 960px) {
+  .steps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  .step {
+    padding: 0 0 0 64px;
+    gap: 8px;
+  }
+
+  .step::before {
+    top: 40px;
+    bottom: -40px;
+    left: 20px;
+    right: auto;
+    width: 1px;
+    height: auto;
+  }
+
+  .step:last-child::before {
+    display: none;
+  }
+
+  .step__number {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+  }
+
+  .step__title {
+    padding-top: 6px;
+  }
+
+  .refusal__copy,
+  .refusal__exchange {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 520px) {
+  .exchange__turn {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+    padding: 16px 0 16px 16px;
+  }
+
+  .exchange dd {
+    font-size: var(--text-18);
+  }
+
+  .refusal {
+    margin-top: 64px;
+  }
+}

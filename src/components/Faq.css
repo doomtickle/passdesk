@@ -1,0 +1,107 @@
+.faq__head {
+  grid-column: 1 / span 4;
+  margin-bottom: 40px;
+}
+
+.faq {
+  grid-column: 5 / span 8;
+  border-top: 2px solid var(--fg);
+}
+
+.faq__item {
+  border-bottom: 1px solid var(--rule);
+}
+
+.faq__question {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 0;
+  font-size: var(--text-21);
+  font-weight: 650;
+  line-height: 1.35;
+  list-style: none;
+  cursor: pointer;
+}
+
+.faq__question::-webkit-details-marker {
+  display: none;
+}
+
+.faq__question:hover > span:first-child {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+/* Plus that becomes a minus when open. */
+.faq__icon {
+  position: relative;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 0.25em;
+}
+
+.faq__icon::before,
+.faq__icon::after {
+  content: '';
+  position: absolute;
+  top: 9px;
+  left: 0;
+  width: 20px;
+  height: 2px;
+  background: currentColor;
+}
+
+.faq__icon::after {
+  transform: rotate(90deg);
+  transition: transform 200ms ease;
+}
+
+.faq__item[open] .faq__icon::after {
+  transform: rotate(0deg);
+}
+
+.faq__answer {
+  padding: 0 48px 28px 0;
+}
+
+.faq__answer p {
+  color: var(--fg-muted);
+}
+
+/* Smooth open where the browser supports animating details content. */
+@media (prefers-reduced-motion: no-preference) {
+  .faq {
+    interpolate-size: allow-keywords;
+  }
+
+  .faq__item::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size 240ms ease,
+      content-visibility 240ms allow-discrete;
+  }
+
+  .faq__item[open]::details-content {
+    block-size: auto;
+  }
+}
+
+@media (max-width: 860px) {
+  .faq__head,
+  .faq {
+    grid-column: 1 / -1;
+  }
+
+  .faq__question {
+    font-size: var(--text-18);
+  }
+
+  .faq__answer {
+    padding-right: 0;
+  }
+}

@@ -1,0 +1,253 @@
+.desk {
+  display: grid;
+  gap: 12px;
+}
+
+.desk__panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 128px;
+  grid-template-areas:
+    'agents rack'
+    'record record';
+  gap: 24px;
+  min-height: 460px;
+  padding: 24px;
+  background: var(--lobby-raised);
+  border: 1px solid var(--rule-on-dark);
+  border-radius: var(--radius-panel);
+  color: var(--paper);
+}
+
+.desk__zone-label {
+  font-size: var(--text-14);
+  font-weight: 600;
+  color: var(--mist);
+}
+
+.desk__zone-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.desk__chip {
+  padding: 2px 8px;
+  border: 1px solid var(--rule-on-dark);
+  border-radius: var(--radius-control);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--paper);
+}
+
+/* Agents: request slips */
+.desk__agents {
+  grid-area: agents;
+  min-width: 0;
+}
+
+.desk__tickets {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.ticket {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: var(--radius-control);
+}
+
+.ticket__body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ticket__agent {
+  font-size: var(--text-14);
+  line-height: 1.4;
+  color: var(--slate);
+}
+
+.ticket__request {
+  font-size: var(--text-16);
+  font-weight: 550;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.ticket__reason {
+  margin-top: 4px;
+  font-size: var(--text-14);
+  line-height: 1.4;
+  color: var(--decline);
+}
+
+.stamp {
+  flex: none;
+  padding: 3px 9px;
+  border: 2px solid currentColor;
+  border-radius: var(--radius-control);
+  font-size: var(--text-14);
+  font-weight: 700;
+  line-height: 1.3;
+  transform: rotate(-6deg);
+}
+
+.stamp--approved {
+  color: var(--approve);
+}
+
+.stamp--declined {
+  color: var(--decline);
+}
+
+/* Key rack */
+.desk__rack {
+  grid-area: rack;
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding-left: 20px;
+  border-left: 1px solid var(--rule-on-dark);
+}
+
+.rack {
+  display: grid;
+  gap: 10px;
+  padding: 0;
+  list-style: none;
+}
+
+.key-tag {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 4px 10px 4px 26px;
+  background: var(--brass);
+  color: var(--ink);
+  border-radius: var(--radius-control);
+  font-size: var(--text-14);
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+/* The ring hole the key hangs from. */
+.key-tag::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  margin-top: -4.5px;
+  border-radius: 50%;
+  background: var(--lobby-raised);
+  box-shadow: inset 0 0 0 1.5px rgba(8, 42, 32, 0.45);
+}
+
+/* Record */
+.desk__record {
+  grid-area: record;
+  align-self: end;
+  padding-top: 18px;
+  border-top: 1px solid var(--rule-on-dark);
+}
+
+.record {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-14);
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+
+.record__line {
+  display: grid;
+  grid-template-columns: 3.25em 6.5em minmax(0, 1fr) auto;
+  gap: 12px;
+}
+
+.record__time,
+.record__action {
+  color: var(--mist);
+}
+
+.record__action {
+  overflow-wrap: anywhere;
+}
+
+.record__decision {
+  font-weight: 600;
+}
+
+.record__decision--approved {
+  color: var(--approve-light);
+}
+
+.record__decision--declined {
+  color: var(--decline-light);
+}
+
+.desk__caption {
+  font-size: var(--text-14);
+  color: var(--mist);
+}
+
+@media (max-width: 560px) {
+  .desk__panel {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'agents'
+      'rack'
+      'record';
+    gap: 20px;
+    min-height: 0;
+    padding: 16px;
+  }
+
+  .ticket {
+    padding: 12px;
+  }
+
+  .desk__rack {
+    padding-left: 0;
+    padding-top: 16px;
+    border-left: 0;
+    border-top: 1px solid var(--rule-on-dark);
+  }
+
+  .rack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .record__line {
+    grid-template-columns: 3.25em minmax(0, 1fr) auto;
+    row-gap: 0;
+  }
+
+  .record__agent {
+    grid-column: 2;
+  }
+
+  .record__action {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .record__decision {
+    grid-column: 3;
+    grid-row: 1;
+  }
+}

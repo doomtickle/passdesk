@@ -1,0 +1,18 @@
+.closing__inner {
+  display: grid;
+  justify-items: center;
+  gap: 24px;
+  text-align: center;
+}
+
+.closing__inner h2 {
+  max-width: 16ch;
+}
+
+.closing__text {
+  margin-bottom: 16px;
+  font-size: var(--text-21);
+  line-height: 1.5;
+  color: var(--mist);
+  max-width: 40ch;
+}

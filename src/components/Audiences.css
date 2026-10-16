@@ -1,0 +1,49 @@
+.audiences {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 2px solid var(--fg);
+}
+
+.audience {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+  padding: 40px 48px 8px 0;
+}
+
+.audience + .audience {
+  padding-left: 48px;
+  padding-right: 0;
+  border-left: 1px solid var(--rule);
+}
+
+.audience h3 {
+  font-size: var(--text-32);
+  letter-spacing: -0.02em;
+}
+
+.audience p {
+  font-size: var(--text-21);
+  line-height: 1.55;
+  color: var(--fg-muted);
+}
+
+@media (max-width: 800px) {
+  .audiences {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .audience,
+  .audience + .audience {
+    padding: 32px 0;
+    border-left: 0;
+  }
+
+  .audience + .audience {
+    border-top: 1px solid var(--rule);
+  }
+
+  .audience p {
+    font-size: var(--text-18);
+  }
+}

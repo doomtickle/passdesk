@@ -1,73 +1,52 @@
 # Passdesk marketing homepage
 
-A static, single-page marketing site for Passdesk. Plain HTML and CSS, a
-system font stack, inline SVG for every icon and diagram, and no build step.
+The launch page for Passdesk, the front desk for AI coding agents: a single-page
+Vite + React + TypeScript site with plain CSS. Its job is to explain Passdesk in a
+few seconds and collect early-access sign-ups.
 
-## Files
+## Commands
 
-- `index.html` — the page.
-- `styles.css` — all styling, including the light theme and a
-  `prefers-color-scheme: dark` theme.
-- `COPY-NOTES.md` — every factual claim on the page, with the shipped
-  capability it's backed by (or its "Coming soon" label).
+```bash
+npm install        # install dependencies
+npm run dev        # local dev server with hot reload
+npm run build      # type-check, then build the static site into dist/
+npm run preview    # serve the built dist/ locally
+npm run typecheck  # tsc --noEmit only
+```
 
-## Viewing it
+The build output in `dist/` is fully static. Fonts are bundled from npm
+(`@fontsource-variable/schibsted-grotesk`, `@fontsource/jetbrains-mono`), so the page
+makes no external network requests at runtime.
 
-No build step, no server required. Either:
+## Where things live
 
-- Open `index.html` directly in a browser (double-click it, or
-  `open index.html` / `xdg-open index.html`), or
-- Serve the folder locally and visit the printed URL, e.g.:
+- `index.html` — page shell: title, meta description, Open Graph tags, theme color.
+- `public/favicon.svg` — the key mark favicon.
+- `src/App.tsx` — section order.
+- `src/components/` — one component per section, each with its own CSS file. **The
+  copy lives in these files**, e.g. `Hero.tsx`, `Problem.tsx` (comparison table rows),
+  `HowItWorks.tsx` (steps and the refusal example), `UnderTheHood.tsx` (the example
+  rules file and audit record), `Availability.tsx`, `Faq.tsx`.
+- `src/styles/tokens.css` — design tokens: colors, type scale, spacing, radii, and the
+  dark-mode overrides for the light sections.
+- `src/styles/global.css` — base element styles, layout helpers, buttons, focus rings.
+- `src/config.ts` — `CONTACT_EMAIL`, used in the footer. It's a placeholder
+  (`hello@passdesk.example`) and must be replaced before launch.
+- `COPY-NOTES.md` — every claim on the page mapped to the shipped capability (S1–S8)
+  or roadmap item (R1–R5) that backs it.
 
-  ```bash
-  python3 -m http.server 8000
-  # then open http://localhost:8000/
-  ```
+When editing copy that says what Passdesk does, update `COPY-NOTES.md` so the claim still
+maps to a shipped capability, or is clearly listed under "Coming soon".
 
-There are no external network requests — fonts, icons and the diagram are
-all inline or system-provided, so it also renders fully offline.
+The example rules file and audit record in `UnderTheHood.tsx` are column-aligned
+monospace text. Keep the spacing when you edit them.
 
-## Editing the copy
+## Sign-up form
 
-Everything is plain text in `index.html`; there's no templating or data
-file to edit separately.
+See `src/components/WaitlistForm.tsx`. It is currently a visual stub: submitting does
+nothing. The sign-up endpoint is configured in a later step.
 
-- **Headline / subhead / CTAs**: top of the `<section id="top" class="hero">`
-  block.
-- **Section headings**: each page section is a `<section>` with a `<h2>`
-  near the top — search for the heading text to find it.
-- **The denial example, the policy config snippet, and the log lines**:
-  each lives in a `<pre class="code-block">...</pre>` block (the denial
-  example and the policy snippet are wrapped in a `<figure>` with a
-  `<figcaption>`). Keep the monospace formatting and column alignment,
-  and keep only the existing highlight spans (`<span class="line-deny">`,
-  `<span class="redacted">`, `<span class="code-comment">`) when editing
-  these — don't introduce new inline markup, or the alignment and the
-  dark/light theme colors will drift.
-- **Integrations list**: the `<ul class="integration-strip">` in the
-  "Works with your stack" section. Add or remove `<li>` items as plain
-  text — no logos, per the brand rules in `COPY-NOTES.md`.
-- **Roadmap / "Coming soon" items**: grouped in one `<p class="roadmap-note">`
-  block, currently in the "Works with your stack" section. If you add a
-  new roadmap item, add it there (and to `COPY-NOTES.md`) rather than
-  scattering "Coming soon" labels across multiple sections.
+## Hero demo
 
-After editing copy that makes a factual claim (anything about what
-Passdesk actually does), update `COPY-NOTES.md` so the claim still maps to
-a real, shipped capability — or is clearly labelled "Coming soon".
-
-## Design notes
-
-- Colors, spacing and type live entirely in `styles.css`; the dark theme
-  is a second set of CSS custom properties under
-  `@media (prefers-color-scheme: dark)` — there's no JS theme toggle.
-- The layout is responsive down to ~400px width with no horizontal
-  scrolling; breakpoints are in the `@media` rules at the bottom of
-  `styles.css`. The code blocks (denial example, policy snippet, audit
-  log) are the one exception: they scroll horizontally on purpose so the
-  monospace alignment survives on narrow viewports instead of wrapping or
-  shrinking illegibly. They're focusable (`tabindex="0"`) so keyboard
-  users can scroll them too.
-- All icons and the hero flow diagram are inline `<svg>` — decorative ones
-  are `aria-hidden`, the hero diagram has a `<title>`/`<desc>` pair for
-  screen readers.
+`src/components/DeskDemo.tsx` is a static illustration of requests going through the
+desk. It will be animated in a later step.
