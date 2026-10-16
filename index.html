@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Passdesk — Let your agents work. Keep the keys.</title>
+<meta name="description" content="Your agents get the tools they need, and Passdesk keeps the credentials. Security approves every agent's tools and sees every call.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="wordmark" href="#top">
+      <svg class="wordmark-icon" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true" focusable="false">
+        <circle cx="11" cy="16" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+        <path d="M17 16 H29 M24 16 v5 M28 16 v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span>Passdesk</span>
+    </a>
+    <nav class="main-nav" aria-label="Primary">
+      <ul>
+        <li><a href="#problem">Problem</a></li>
+        <li><a href="#how-it-works">How it works</a></li>
+        <li><a href="#policy">Policy</a></li>
+        <li><a href="#log">Log</a></li>
+        <li><a href="#stack">Integrations</a></li>
+        <li><a href="#quickstart">Quickstart</a></li>
+      </ul>
+    </nav>
+    <a class="button button-primary nav-cta" href="#demo">Book a demo</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 1. Hero -->
+  <section id="top" class="hero">
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <h1>Let your agents work. Keep the keys.</h1>
+        <p class="lede">Your agents get the tools they need, and Passdesk keeps the credentials. Security approves every agent's tools and sees every call.</p>
+        <div class="cta-row">
+          <a class="button button-primary" href="#demo">Book a demo</a>
+          <a class="button button-secondary" href="#quickstart">Read the quickstart</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <svg viewBox="0 0 560 280" role="img" aria-labelledby="hero-svg-title hero-svg-desc" class="flow-diagram">
+          <title id="hero-svg-title">How a request reaches GitHub, npm, or Jira through Passdesk</title>
+          <desc id="hero-svg-desc">An agent, holding no host credentials, sends a request to the Passdesk desk. The desk holds a key icon and checks policy, then reaches GitHub, npm, and Jira on the agent's behalf.</desc>
+
+          <!-- Agent -->
+          <g>
+            <rect x="12" y="104" width="120" height="72" rx="10" class="node node-agent"/>
+            <text x="72" y="132" class="node-label" text-anchor="middle">Agent</text>
+            <text x="72" y="151" class="node-sublabel" text-anchor="middle">no host</text>
+            <text x="72" y="166" class="node-sublabel" text-anchor="middle">credentials</text>
+          </g>
+
+          <!-- Arrow agent -> desk -->
+          <line x1="132" y1="140" x2="212" y2="140" class="flow-line" marker-end="url(#arrow)"/>
+          <text x="172" y="130" class="flow-label" text-anchor="middle">asks</text>
+
+          <!-- Passdesk desk -->
+          <g>
+            <rect x="216" y="86" width="140" height="108" rx="10" class="node node-desk"/>
+            <text x="286" y="116" class="node-label" text-anchor="middle">Passdesk</text>
+            <g transform="translate(266,132)" aria-hidden="true">
+              <circle cx="20" cy="10" r="9" fill="none" stroke="currentColor" stroke-width="2.5"/>
+              <rect x="18" y="18" width="4" height="16" fill="currentColor"/>
+              <rect x="18" y="28" width="10" height="4" fill="currentColor"/>
+              <rect x="18" y="34" width="7" height="4" fill="currentColor"/>
+            </g>
+            <text x="286" y="185" class="node-sublabel" text-anchor="middle">holds the keys</text>
+          </g>
+
+          <!-- Arrows desk -> targets -->
+          <line x1="356" y1="110" x2="430" y2="60" class="flow-line" marker-end="url(#arrow)"/>
+          <line x1="356" y1="140" x2="430" y2="140" class="flow-line" marker-end="url(#arrow)"/>
+          <line x1="356" y1="170" x2="430" y2="220" class="flow-line" marker-end="url(#arrow)"/>
+
+          <!-- Targets -->
+          <g>
+            <rect x="434" y="34" width="112" height="44" rx="8" class="node node-target"/>
+            <text x="490" y="61" class="node-label-sm" text-anchor="middle">GitHub</text>
+          </g>
+          <g>
+            <rect x="434" y="118" width="112" height="44" rx="8" class="node node-target"/>
+            <text x="490" y="145" class="node-label-sm" text-anchor="middle">npm</text>
+          </g>
+          <g>
+            <rect x="434" y="202" width="112" height="44" rx="8" class="node node-target"/>
+            <text x="490" y="229" class="node-label-sm" text-anchor="middle">Jira</text>
+          </g>
+
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" class="arrow-head"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. The problem -->
+  <section id="problem" class="section">
+    <div class="wrap">
+      <h2>The problem</h2>
+      <p class="section-intro">An agent that can act on your behalf usually has to hold the means to act. That's the part worth changing.</p>
+      <div class="compare-grid">
+        <div class="compare-card compare-bad">
+          <h3>Agent with a token</h3>
+          <ul class="compare-list">
+            <li>
+              <svg class="compare-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 5 L15 15 M15 5 L5 15" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+              <span>Credential sits in the agent's environment</span>
+            </li>
+            <li>
+              <svg class="compare-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 5 L15 15 M15 5 L5 15" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+              <span>Open network access, direct to any host</span>
+            </li>
+            <li>
+              <svg class="compare-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 5 L15 15 M15 5 L5 15" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+              <span>No record of what it actually did</span>
+            </li>
+          </ul>
+        </div>
+        <div class="compare-card compare-good">
+          <h3>Agent with Passdesk</h3>
+          <ul class="compare-list">
+            <li>
+              <svg class="compare-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 10.5 L8 14.5 L16 5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Only its Passdesk token, never your credentials</span>
+            </li>
+            <li>
+              <svg class="compare-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 10.5 L8 14.5 L16 5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>No network access outside Passdesk</span>
+            </li>
+            <li>
+              <svg class="compare-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 10.5 L8 14.5 L16 5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Every call logged with its decision</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. How it works -->
+  <section id="how-it-works" class="section section-alt">
+    <div class="wrap">
+      <h2>How it works</h2>
+      <p class="section-intro">Four steps, every time a tool gets used.</p>
+      <ol class="steps">
+        <li class="step">
+          <span class="step-number" aria-hidden="true">1</span>
+          <h3>Agent asks</h3>
+          <p>The agent sends a narrow request to Passdesk &mdash; push this branch, fetch these locked packages &mdash; using its own bearer token. It never sees a GitHub token, an npm credential, or raw network access.</p>
+        </li>
+        <li class="step">
+          <span class="step-number" aria-hidden="true">2</span>
+          <h3>Passdesk checks policy</h3>
+          <p>Passdesk looks up the agent's grant list and the org's policy: which repos, which branches, which packages, which hosts. Anything outside that is denied with a reason.</p>
+        </li>
+        <li class="step">
+          <span class="step-number" aria-hidden="true">3</span>
+          <h3>Passdesk acts</h3>
+          <p>Passdesk performs the call with its own credentials, read fresh per call. The agent's own egress is through Passdesk only, and Passdesk itself is held to an egress allowlist. Packages arrive as lockfile-pinned, hash-verified tarballs and wheels, and no install scripts run.</p>
+        </li>
+        <li class="step">
+          <span class="step-number" aria-hidden="true">4</span>
+          <h3>Result filtered and logged</h3>
+          <p>Outgoing pushes and prompts are scanned for secrets and blocked if one turns up. What comes back is redacted, stripped of terminal escapes and wrapped as untrusted data before the agent sees it. The call (time, agent, tool, redacted arguments, decision) is appended to the audit record.</p>
+        </li>
+      </ol>
+
+      <div class="denial-demo">
+        <h3 id="denial-heading">A denial, in practice</h3>
+        <p>An agent asks to push straight to <code>main</code>. Policy says no, and says why.</p>
+        <figure>
+          <pre class="code-block" tabindex="0"><code>→ github.push  {repo: "acme/web", branch: "main"}
+<span class="line-deny">← denied  reason: "main is a protected branch"</span>
+          hint: push to a branch starting with "agent/"</code></pre>
+          <figcaption>Example tool call and response (illustrative, not captured output)</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Approve tools once -->
+  <section id="policy" class="section">
+    <div class="wrap">
+      <h2>Approve tools once</h2>
+      <p class="section-intro">Approval lives in version control: per-agent config files, reviewed like code.</p>
+      <div class="policy-layout">
+        <div class="policy-copy">
+          <p>One grant file defines what an agent can touch: which repos, which branches, which packages, which hosts, and the limits on each.</p>
+          <p>Change the file, review it like any other diff, merge it. Once deployed, calls are checked against the new version.</p>
+        </div>
+        <figure>
+          <pre class="code-block code-block-config" tabindex="0"><code><span class="code-comment"># grants/release-bot.yaml</span>
+agent: release-bot
+tools:
+  github:
+    repos: ["acme/web", "acme/api"]
+    branches:
+      protected: ["main", "release/*"]  <span class="code-comment"># org policy, shown inline</span>
+      push_prefix: "agent/"
+    actions: [fetch, push, open_pr]
+    max_push_mb: 20
+  npm:
+    allow: ["@acme/*"]
+    deny: ["@acme/legacy-auth"]
+  web_fetch:
+    hosts: ["docs.acme.internal", "wiki.acme.internal"]
+    max_response_mb: 5
+</code></pre>
+          <figcaption>Example grant file (illustrative, schema simplified)</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Every call on the record -->
+  <section id="log" class="section section-alt">
+    <div class="wrap">
+      <h2>Every call on the record</h2>
+      <p class="section-intro">Passdesk keeps an append-only audit line for every call: time, agent, tool, redacted arguments, decision.</p>
+      <figure>
+        <pre class="code-block ledger" tabindex="0"><code>2026-03-04T09:12:01Z  agent=release-bot    tool=github.push     args={repo: "acme/web", branch: "agent/bump-deps"}                decision=ALLOW
+2026-03-04T09:12:04Z  agent=release-bot    tool=github.open_pr  args={repo: "acme/web", title: "Bump deps"}                       decision=ALLOW
+2026-03-04T09:13:51Z  agent=release-bot    tool=github.push     args={repo: "acme/web", branch: "agent/fix-ci"}                   <span class="line-deny">decision=DENY  reason="secret detected in diff"</span>
+2026-03-04T09:14:22Z  agent=triage-bot     tool=github.push     args={repo: "acme/web", branch: "main"}                           <span class="line-deny">decision=DENY  reason="protected branch"</span>
+2026-03-04T09:15:40Z  agent=triage-bot     tool=jira.comment    args={issue: "OPS-204", body: <span class="redacted">[REDACTED]</span>}                         decision=ALLOW
+2026-03-04T09:21:08Z  agent=pkg-bot        tool=npm.fetch       args={package: "@acme/ui-kit@2.4.1"}                              decision=ALLOW
+</code></pre>
+        <figcaption>Sample audit log (illustrative, not captured output)</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 6. Works with your stack -->
+  <section id="stack" class="section">
+    <div class="wrap">
+      <h2>Works with your stack</h2>
+      <p class="section-intro">Tools available today, with policy enforced on every one.</p>
+      <ul class="integration-strip">
+        <li>GitHub</li>
+        <li>npm</li>
+        <li>PyPI</li>
+        <li>Web fetch</li>
+        <li>Jira</li>
+        <li>Gemini</li>
+      </ul>
+      <p class="roadmap-note">
+        <span class="pill">Coming soon</span>
+        A generic MCP adapter for any MCP agent (Claude Code, Codex, Cursor), tamper-evident hash-chained logs with SIEM sinks, short-lived per-repo GitHub App tokens, human approval for risky actions, and signed policy bundles with an admin API.
+      </p>
+    </div>
+  </section>
+
+  <!-- 7. Closing CTA -->
+  <section class="section section-closing">
+    <div class="wrap closing-inner">
+      <h2>Let your agents work. Keep the keys.</h2>
+      <p class="section-intro">Your agents keep doing the work. Passdesk holds the keys and keeps the record.</p>
+      <div class="cta-row">
+        <a class="button button-primary" id="demo" href="mailto:hello@passdesk.example?subject=Book%20a%20Passdesk%20demo">Book a demo</a>
+        <a class="button button-secondary" href="#quickstart">Read the quickstart</a>
+      </div>
+
+      <div id="quickstart" class="quickstart-panel">
+        <h3>Quickstart</h3>
+        <p>The quickstart docs are coming with launch. They'll walk through issuing an agent its first grant file and making its first call through Passdesk.</p>
+        <p>Want early access? <a href="mailto:hello@passdesk.example?subject=Passdesk%20quickstart">Email us</a> and we'll send it the day it ships.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 Passdesk</span>
+    <nav aria-label="Footer">
+      <ul>
+        <li><a href="#top">Top</a></li>
+        <li><a href="#how-it-works">How it works</a></li>
+        <li><a href="#demo">Book a demo</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
