@@ -59,6 +59,6 @@
 /* External citations: a small arrow marks them as leaving the site, in
    addition to the sr-only "(opens in new tab)" suffix in the markup. */
 .article .external-link::after {
-  content: ' ↗';
+  content: ' ↗' / '';
   display: inline-block;
 }
