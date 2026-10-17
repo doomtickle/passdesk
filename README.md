@@ -16,8 +16,9 @@ npm run typecheck  # tsc --noEmit only
 npm test           # compile src/lib with tsc, then run its tests with node --test
 ```
 
-The build output in `dist/` is fully static and makes no external network requests
-at runtime.
+The build output in `dist/` is fully static. At runtime it makes no external network
+requests except the waitlist form's POST (see "Sign-up form") and, when configured,
+the Cloudflare Web Analytics beacon (see "Analytics").
 
 ## Deployment
 
@@ -51,6 +52,9 @@ fonts if a build ever omits the imports.
 - `src/styles/global.css` — base element styles, layout helpers, buttons, focus rings.
 - `src/lib/waitlist.ts` — email validation and submission logic for the waitlist
   form, framework-free and unit-tested (`src/lib/waitlist.test.ts`).
+- `src/lib/cfAnalytics.ts` — Cloudflare Web Analytics beacon token validation
+  and tag rendering, unit-tested (`src/lib/cfAnalytics.test.ts`); injected at
+  build time by `vite.config.ts` (see "Analytics").
 - `src/config.ts` — `CONTACT_EMAIL` (`hello@passdesk.dev`), used in the footer
   and in the waitlist form's error states. The production build refuses to run
   while it is still the placeholder `PLACEHOLDER_CONTACT_EMAIL`.
@@ -101,6 +105,28 @@ The check lives in `vite.config.ts`. For previews and CI builds that don't need
 to be launch-ready, run `npm run build:preview`, which sets
 `PASSDESK_ALLOW_UNCONFIGURED=1`; it builds anyway and prints the same list as a
 warning.
+
+## Analytics
+
+The built site optionally loads [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/),
+which is cookieless, counts page views only, and defines no custom events. To
+enable it:
+
+1. Create a site at Cloudflare's dashboard under Analytics -> Web Analytics,
+   and copy its beacon token (a 32-character hex string, not a secret — it
+   ships in the page's HTML either way).
+2. Set `VITE_CF_ANALYTICS_TOKEN` to that token in `.env.local` or
+   `.env.production`.
+3. Build (`npm run build` or `npm run build:preview`). `vite.config.ts`
+   validates the token and, if it's set and valid, injects the beacon
+   `<script>` tag before `</body>` in both `index.html` and `why/index.html`
+   (`src/lib/cfAnalytics.ts`, unit-tested). The tag never appears in `npm run
+   dev` and the token is never required — an unset token prints a build
+   warning but doesn't fail the build.
+
+The beacon script has no Subresource Integrity (SRI) hash. Cloudflare updates
+`beacon.min.js` in place without warning, so a pinned hash would break
+analytics the next time Cloudflare rolls out an update.
 
 ## Open Graph image
 

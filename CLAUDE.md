@@ -24,7 +24,12 @@ React + TypeScript, plain CSS, deployed to GitHub Pages from `main` by
 - Accessibility: real buttons, inputs with labels, a visible focus ring,
   `prefers-reduced-motion` honoured (the hero desk shows a still frame).
 - Fonts are self-hosted via `@fontsource`; the built page makes no external
-  requests at runtime except the waitlist form's POST to Formspree.
-- `.env.production` holds the public Formspree form id; `CONTACT_EMAIL` is
-  `hello@passdesk.dev`. Neither is a secret. Real secrets never go in this
-  repo.
+  requests at runtime except the waitlist form's POST to Formspree and, when
+  `VITE_CF_ANALYTICS_TOKEN` is set, loading
+  `static.cloudflareinsights.com/beacon.min.js` and its page-view report to
+  `cloudflareinsights.com` (Cloudflare Web Analytics: cookieless, page views
+  only, no custom events; see `src/lib/cfAnalytics.ts`).
+- `.env.production` holds the public Formspree form id and (once created)
+  the public Cloudflare Analytics beacon token; `CONTACT_EMAIL` is
+  `hello@passdesk.dev`. None of these are secrets. Real secrets never go in
+  this repo.
