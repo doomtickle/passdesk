@@ -3,6 +3,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig, loadEnv, type Plugin } from 'vite';
 import { CONTACT_EMAIL, PLACEHOLDER_CONTACT_EMAIL } from './src/config';
+import { injectCfBeaconTag, isValidCfBeaconToken } from './src/lib/cfAnalytics';
 import { hasOwnerMarker, renderLaunchPost } from './src/lib/launchPost';
 
 const rootDir = dirname(fileURLToPath(import.meta.url));
@@ -25,6 +26,42 @@ function launchProblems(mode: string): string[] {
   return problems;
 }
 
+// Cloudflare Web Analytics is optional: an unset token is a warning, not a
+// build failure, since the owner may not have created the Cloudflare site yet.
+function cfAnalyticsWarning(mode: string): string | null {
+  const env = loadEnv(mode, '.', 'VITE_');
+  if (env.VITE_CF_ANALYTICS_TOKEN) return null;
+  return 'VITE_CF_ANALYTICS_TOKEN is not set, so Cloudflare Web Analytics will not be injected (see .env.example).';
+}
+
+// A malformed token fails the build up front, before bundling starts,
+// rather than surfacing as an error deep in the HTML transform step.
+function validateCfAnalyticsToken(mode: string): void {
+  const env = loadEnv(mode, '.', 'VITE_');
+  const token = env.VITE_CF_ANALYTICS_TOKEN;
+  if (token && !isValidCfBeaconToken(token)) {
+    throw new Error(
+      `\n[passdesk] Invalid VITE_CF_ANALYTICS_TOKEN "${token}": expected 32 hex characters (see .env.example).\n`,
+    );
+  }
+}
+
+// Injects the Cloudflare Web Analytics beacon into both built pages, build
+// only, and only when VITE_CF_ANALYTICS_TOKEN is set. Never runs in the dev
+// server (`apply: 'build'`), so local development never pings Cloudflare.
+function cfAnalyticsPlugin(mode: string): Plugin {
+  const env = loadEnv(mode, '.', 'VITE_');
+  const token = env.VITE_CF_ANALYTICS_TOKEN;
+  return {
+    name: 'passdesk-cf-analytics',
+    apply: 'build',
+    transformIndexHtml(html) {
+      if (!token) return html;
+      return injectCfBeaconTag(html, token);
+    },
+  };
+}
+
 // Renders docs/launch-post.md to HTML at build time and drops it into
 // why/index.html in place of the LAUNCH_POST_HTML placeholder. The
 // conversion (markdown-it) runs only in this Node process; no markdown
@@ -43,6 +80,7 @@ function launchPostPlugin(): Plugin {
 // React's automatic JSX runtime via Vite's built-in esbuild transform.
 export default defineConfig(({ command, mode }) => {
   if (command === 'build') {
+    validateCfAnalyticsToken(mode);
     const problems = launchProblems(mode);
     if (problems.length > 0) {
       const list = problems.map((problem) => `  - ${problem}`).join('\n');
@@ -53,11 +91,15 @@ export default defineConfig(({ command, mode }) => {
       }
       console.warn(`\n[passdesk] Building an unconfigured site:\n${list}\n`);
     }
+    if (mode !== 'development') {
+      const warning = cfAnalyticsWarning(mode);
+      if (warning) console.warn(`\n[passdesk] ${warning}\n`);
+    }
   }
 
   return {
     esbuild: { jsx: 'automatic' },
-    plugins: [launchPostPlugin()],
+    plugins: [launchPostPlugin(), cfAnalyticsPlugin(mode)],
     build: {
       rollupOptions: {
         input: {

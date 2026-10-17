@@ -7,7 +7,7 @@ const QUESTIONS = [
   },
   {
     q: 'Do you ever see my keys, my code or my record?',
-    a: 'No. Passdesk is software you run on your own machine. Your credentials, your code and your audit record stay there. Nothing is sent to us; this website makes no request except the early-access form you choose to submit.',
+    a: 'No. Passdesk is software you run on your own machine. Your credentials, your code and your audit record stay there. Nothing is sent to us.',
   },
   {
     q: "What happens when an agent asks for something it isn't allowed to do?",
