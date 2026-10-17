@@ -102,6 +102,30 @@ to be launch-ready, run `npm run build:preview`, which sets
 `PASSDESK_ALLOW_UNCONFIGURED=1`; it builds anyway and prints the same list as a
 warning.
 
+## Open Graph image
+
+`public/og.svg` (1200×630) is the source for `public/og.png`, the `og:image`
+referenced from `index.html`. It reuses the site's own tokens (the `--stage`
+gradient, `--brass` / `--brass-text`, `--paper`) and the key mark from
+`src/components/KeyMark.tsx`; the headline text is copied verbatim from
+`src/components/Hero.tsx`.
+
+[resvg](https://github.com/RazrFalcon/resvg) (via the `@resvg/resvg-wasm`
+devDependency) renders the PNG, but it reads TTF/OTF sfnt data, not WOFF or
+WOFF2 — and the site's fonts ship as `@fontsource` WOFF2 (the variable
+Schibsted Grotesk) or WOFF/WOFF2 (JetBrains Mono, and the static
+`@fontsource/schibsted-grotesk` devDependency used only for this image, for
+the two static weights the headline needs). `scripts/og.mjs` decodes the
+needed `.woff` files (WOFF1 is plain zlib) to in-memory TTF buffers and hands
+them to resvg directly; it never touches WOFF2. Regenerate the PNG with:
+
+```bash
+npm run og
+```
+
+Re-check the result's dimensions are exactly 1200×630 and open the PNG to
+confirm the text isn't clipped before committing it.
+
 ## Hero demo
 
 `src/components/DeskDemo.tsx` animates requests going through the desk. The slips

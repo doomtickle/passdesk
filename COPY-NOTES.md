@@ -1,10 +1,10 @@
 # Copy notes
 
 Every claim on the homepage, matched to the shipped capability that backs it.
-Shipped capabilities are S1–S10; roadmap ("Coming soon") items are R1–R6. Copy
+Shipped capabilities are S1–S12; roadmap ("Coming soon") items are R1–R6. Copy
 lives in `src/components/`; the file for each section is named below.
 
-## Shipped capabilities (S1–S10)
+## Shipped capabilities (S1–S12)
 
 - **S1** — There's no "Passdesk secret store". The GitHub token is
   injected directly by the sandbox's egress proxy; Passdesk itself never
@@ -91,6 +91,11 @@ access" or "private beta" and dated "early 2027".
 ### Meta and header (`index.html`, `Header.tsx`)
 - Title and Open Graph copy restate the hero; same backing as the hero lede.
 - Wordmark, nav and "Request early access" button are structural.
+- `og:image` (`public/og.svg`, rendered to `public/og.png`): the key mark
+  (`KeyMark.tsx`) and wordmark "Passdesk" restate the header; the eyebrow
+  "Open source · runs on your machine" restates the hero eyebrow (**S11** +
+  **S12**); the headline restates the hero title verbatim — no new claim.
+  `og:image:alt` states the same headline; not a separate claim.
 
 ### 1. Hero (`Hero.tsx`, `DeskDemo.tsx`)
 - "Let your agents work. Keep the keys." — positioning line, not a fact.
@@ -208,14 +213,57 @@ access" or "private beta" and dated "early 2027".
 ### 5b. Pricing (`Pricing.tsx`)
 - "The gateway is free" and the Free column — **S11** (license) plus
   **S1**, **S3**, **S4**/**S9**, **S5**, **S6**, **S7** for its six lines.
-- "The approval gate is Pro", the intro paragraph and the Pro Solo column
-  — **P1**; the two lines marked "coming" — **R6** (per-agent rules) and
-  **R2** (hash-chained audit export).
+- "The approval gate is Pro" and the Pro Solo column — **P1**; the intro
+  paragraph ("approves or declines it from the terminal, with an optional
+  webhook to notify them") — **P1** (the terminal, `factory approvals`, is
+  where a person approves or declines; a webhook only notifies them, it
+  doesn't decide); the two lines marked "coming" — **R6** (per-agent rules)
+  and **R2** (hash-chained audit export).
 - Prices, "Early access" badge, "private beta and ships in early 2027",
   "may change before launch" — **P2**.
 - Pro Team column: "One key for the team", support terms, "No SLA, no
   custom work", "No enterprise tier, on purpose" — **P2** (the offer as
   planned, stated as policy, not as a shipped capability).
+
+### 5c. Pro approvals explainer (`ProApprovals.tsx`)
+- Eyebrow "Passdesk Pro" and heading "What a held push looks like" — structural,
+  not a claim (like the Pricing eyebrow).
+- "Early access" chip and the closing note "Pro is in private beta and ships in
+  early 2027." (wording matches the Pricing section's note exactly) — **P2**.
+- "To the agent" panel:
+  - "An agent's push or pull request waits for a decision instead of failing
+    outright." — **P1**.
+  - "Decided quickly enough, the agent gets the outcome in that same call:
+    approved, the push or pull request goes through; declined, it gets the
+    approver's reason." — **P1** (the hook returns within `hold_seconds` if a
+    decision lands in time: approved proceeds in-call, declined raises with the
+    approver's reason).
+  - "Still undecided after a short hold, the call ends in a denial that names
+    the approval and asks the agent to retry once someone has decided; nothing
+    is sent until then, and the retry picks up whatever was decided in the
+    meantime." — **P1** (the real denial text names the approval id and tells
+    the agent to retry the same call; a retry shares the card's id, so a
+    decision made meanwhile is honoured).
+- "To the approver" panel:
+  - "The approver sees the same push as a card in their terminal: for a push,
+    the repo and branch, the commit and file counts and the diff stat; for a
+    pull request, the repo, its title and base branch." — **P1** (the
+    console and the card's fields: `repo`/`branch`/`commits`/`file_count`/
+    `shortstat` for a push, `repo`/`head`/`base`/`title` for a pull request;
+    the `github_create_pr` card carries no commit/file counts or diff stat,
+    so the wording no longer implies it does).
+  - "Because Passdesk's secret scan runs before the hold, every card the
+    approver sees has already passed it." — **S5** + **P1** (the scan runs
+    before the approval card is built; a push that fails it is denied and
+    never reaches a person, so the card never shows a failed scan).
+  - "An optional webhook can post a summary of the card to Slack, Discord or
+    ntfy, so the approver doesn't have to watch the terminal." — **P1**.
+    Makes no claim about what the notification does or doesn't redact (open
+    issue, HANDOVER item 9).
+  - "One decision, approve or decline, goes on the audit record together with
+    the approver's name; a card nobody decides on simply expires." — **P1**
+    (decision + approver's name on the audit record) + **S7** (the audit
+    record itself).
 
 ### 6. Availability (`Availability.tsx`)
 - "Works today" list — **S8**, the full list; the "Jira (read your assigned
