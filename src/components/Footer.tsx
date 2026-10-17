@@ -7,6 +7,7 @@ const LINKS = [
   { href: '#under-the-hood', label: 'For security' },
   { href: '#pricing', label: 'Pricing' },
   { href: '#faq', label: 'FAQ' },
+  { href: '/why/', label: 'Why Passdesk' },
   { href: 'https://github.com/doomtickle/passdesk-broker', label: 'Source' },
   { href: '#get-access', label: 'Request early access' },
 ];

@@ -5,7 +5,7 @@ React + TypeScript, plain CSS, deployed to GitHub Pages from `main` by
 `.github/workflows/deploy.yml`. Pushing to `main` publishes.
 
 - **Every claim on the page maps to a shipped capability.** `COPY-NOTES.md`
-  lists the shipped capabilities (S1–S11), the roadmap items (R1–R6) and the
+  lists the shipped capabilities (S1–S12), the roadmap items (R1–R6) and the
   Passdesk Pro beta items (P1–P2), and maps every sentence of copy to one of
   them. When you change copy that says what Passdesk does, update the map in
   the same change, or label the claim "coming soon". Never add invented
