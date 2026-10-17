@@ -51,3 +51,8 @@ test('injectCfBeaconTag throws instead of modifying html when the token is inval
   const html = '<html><body></body></html>';
   assert.throws(() => injectCfBeaconTag(html, 'bad-token'), /Invalid VITE_CF_ANALYTICS_TOKEN/);
 });
+
+test('injectCfBeaconTag throws instead of silently skipping injection when there is no </body>', () => {
+  const html = '<html><body>no closing tag';
+  assert.throws(() => injectCfBeaconTag(html, VALID_TOKEN), /no <\/body> tag found/);
+});

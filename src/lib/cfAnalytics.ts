@@ -19,6 +19,9 @@ export function renderCfBeaconTag(token: string): string {
 }
 
 export function injectCfBeaconTag(html: string, token: string): string {
+  if (!html.includes('</body>')) {
+    throw new Error('[passdesk] Cannot inject the Cloudflare Analytics beacon: no </body> tag found in the page.');
+  }
   const tag = renderCfBeaconTag(token);
   return html.replace('</body>', `  ${tag}\n  </body>`);
 }

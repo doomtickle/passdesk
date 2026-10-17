@@ -122,7 +122,8 @@ enable it:
    `<script>` tag before `</body>` in both `index.html` and `why/index.html`
    (`src/lib/cfAnalytics.ts`, unit-tested). The tag never appears in `npm run
    dev` and the token is never required — an unset token prints a build
-   warning but doesn't fail the build.
+   warning but doesn't fail the build. A token that's set but not 32 hex
+   characters fails the build up front, before anything is bundled.
 
 The beacon script has no Subresource Integrity (SRI) hash. Cloudflare updates
 `beacon.min.js` in place without warning, so a pinned hash would break

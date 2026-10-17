@@ -3,7 +3,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig, loadEnv, type Plugin } from 'vite';
 import { CONTACT_EMAIL, PLACEHOLDER_CONTACT_EMAIL } from './src/config';
-import { injectCfBeaconTag } from './src/lib/cfAnalytics';
+import { injectCfBeaconTag, isValidCfBeaconToken } from './src/lib/cfAnalytics';
 import { hasOwnerMarker, renderLaunchPost } from './src/lib/launchPost';
 
 const rootDir = dirname(fileURLToPath(import.meta.url));
@@ -32,6 +32,18 @@ function cfAnalyticsWarning(mode: string): string | null {
   const env = loadEnv(mode, '.', 'VITE_');
   if (env.VITE_CF_ANALYTICS_TOKEN) return null;
   return 'VITE_CF_ANALYTICS_TOKEN is not set, so Cloudflare Web Analytics will not be injected (see .env.example).';
+}
+
+// A malformed token fails the build up front, before bundling starts,
+// rather than surfacing as an error deep in the HTML transform step.
+function validateCfAnalyticsToken(mode: string): void {
+  const env = loadEnv(mode, '.', 'VITE_');
+  const token = env.VITE_CF_ANALYTICS_TOKEN;
+  if (token && !isValidCfBeaconToken(token)) {
+    throw new Error(
+      `\n[passdesk] Invalid VITE_CF_ANALYTICS_TOKEN "${token}": expected 32 hex characters (see .env.example).\n`,
+    );
+  }
 }
 
 // Injects the Cloudflare Web Analytics beacon into both built pages, build
@@ -68,6 +80,7 @@ function launchPostPlugin(): Plugin {
 // React's automatic JSX runtime via Vite's built-in esbuild transform.
 export default defineConfig(({ command, mode }) => {
   if (command === 'build') {
+    validateCfAnalyticsToken(mode);
     const problems = launchProblems(mode);
     if (problems.length > 0) {
       const list = problems.map((problem) => `  - ${problem}`).join('\n');

@@ -53,11 +53,12 @@ lives in `src/components/`; the file for each section is named below.
   with Claude Code today.
 - **S12** — Self-hosted, nothing phones home: the gateway and its sandbox
   run on the user's machine; credentials, code and the audit record stay
-  there; no Passdesk-operated service receives any of them. The built site
-  makes no runtime request except the waitlist form's POST (README,
-  "Sign-up form"). Copy that could read as Passdesk the company holding a
-  user's credentials is not allowed; "the desk" always means the user's
-  own gateway.
+  there; no Passdesk-operated service receives any of them. Copy that could
+  read as Passdesk the company holding a user's credentials is not
+  allowed; "the desk" always means the user's own gateway. (The built
+  site's own runtime requests — the waitlist form's POST and, when
+  configured, the Cloudflare Web Analytics beacon — are a separate claim;
+  see README, "Sign-up form" and "Analytics".)
 
 ## Passdesk Pro (private beta, P1–P2)
 
@@ -293,8 +294,7 @@ access" or "private beta" and dated "early 2027".
 ### 7. FAQ (`Faq.tsx`)
 - GitHub token, "The gateway's own sandbox on your machine holds the
   credentials" — **S1** + **S3** + **S12**.
-- "Do you ever see my keys, my code or my record?" — **S12** in full,
-  including "this website makes no request except the early-access form".
+- "Do you ever see my keys, my code or my record?" — **S12**.
 - Not allowed — **S4** + **S7**.
 - Going around Passdesk, "All of an agent's tool traffic goes through
   Passdesk; apart from its model provider, it has no other way out" —
