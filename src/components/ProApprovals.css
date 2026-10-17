@@ -32,14 +32,17 @@
 .pro-approvals__panel p {
   font-size: var(--text-16);
   line-height: 1.55;
-  color: var(--fg-muted);
+  /* --fg, not the site-wide --fg-muted: on section--paper-2 that pairing drops
+     under 7:1 in light mode (see HowItWorks/Availability, left alone). */
+  color: var(--fg);
 }
 
 .pro-approvals__note {
   margin-top: 28px;
   font-family: var(--font-mono);
   font-size: var(--text-14);
-  color: var(--fg-muted);
+  /* --fg, not --fg-muted: same section--paper-2 contrast issue as .pro-approvals__panel p above. */
+  color: var(--fg);
 }
 
 @media (max-width: 800px) {

@@ -35,8 +35,9 @@ export function Pricing() {
           <p className="eyebrow">Pricing</p>
           <h2 id="pricing-title">The gateway is free. The approval gate is Pro.</h2>
           <p>
-            Passdesk Pro holds every push and pull request until a person approves it, from your terminal or
-            a webhook, and puts the approver's name on the record. Annual, per approver, unlimited agents.
+            Passdesk Pro holds every push and pull request until a person approves or declines it from the
+            terminal, with an optional webhook to notify them, and puts the approver's name on the record.
+            Annual, per approver, unlimited agents.
           </p>
         </div>
 

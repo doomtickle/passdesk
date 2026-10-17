@@ -276,6 +276,24 @@ main:focus {
   border-color: #f1c9c2;
 }
 
+/* For a brass chip sitting directly on a light paper surface (not a dark card):
+   dark text on a light brass tint keeps contrast ≥7:1. OS dark mode swaps the
+   surface to the dark --bg-paper-2, so this falls back to the normal
+   chip--brass look. */
+.chip--brass-light {
+  background: #f6e6ba;
+  color: #4a380f;
+  border-color: #e3c67f;
+}
+
+@media (prefers-color-scheme: dark) {
+  .chip--brass-light {
+    background: rgba(225, 182, 90, 0.16);
+    color: var(--brass-text);
+    border-color: rgba(225, 182, 90, 0.4);
+  }
+}
+
 .section-head p {
   font-size: var(--text-21);
   line-height: 1.5;
