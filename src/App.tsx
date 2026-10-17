@@ -1,6 +1,7 @@
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { Problem } from './components/Problem';
+import { WhyExists } from './components/WhyExists';
 import { HowItWorks } from './components/HowItWorks';
 import { Audiences } from './components/Audiences';
 import { UnderTheHood } from './components/UnderTheHood';
@@ -21,6 +22,7 @@ export function App() {
       <main id="main" tabIndex={-1}>
         <Hero />
         <Problem />
+        <WhyExists />
         <HowItWorks />
         <Audiences />
         <UnderTheHood />
