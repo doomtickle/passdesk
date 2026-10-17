@@ -222,6 +222,44 @@ access" or "private beta" and dated "early 2027".
   custom work", "No enterprise tier, on purpose" — **P2** (the offer as
   planned, stated as policy, not as a shipped capability).
 
+### 5c. Pro approvals explainer (`ProApprovals.tsx`)
+- Eyebrow "Passdesk Pro" and heading "What a held push looks like" — structural,
+  not a claim (like the Pricing eyebrow).
+- "Early access" chip and the closing note "Pro is in private beta and ships in
+  early 2027." (wording matches the Pricing section's note exactly) — **P2**.
+- "To the agent" panel:
+  - "An agent's push or pull request waits for a decision instead of failing
+    outright." — **P1**.
+  - "Decided quickly enough, the agent gets the outcome in that same call:
+    approved, the push or pull request goes through; declined, it gets the
+    approver's reason." — **P1** (the hook returns within `hold_seconds` if a
+    decision lands in time: approved proceeds in-call, declined raises with the
+    approver's reason).
+  - "Still undecided after a short hold, the call ends in a denial that names
+    the approval and asks the agent to retry once someone has decided; nothing
+    is sent until then, and the retry picks up whatever was decided in the
+    meantime." — **P1** (the real denial text names the approval id and tells
+    the agent to retry the same call; a retry shares the card's id, so a
+    decision made meanwhile is honoured).
+- "To the approver" panel:
+  - "The approver sees the same push as a card in their terminal: the repo and
+    branch, or for a pull request its title and base, plus the commit and file
+    counts and the diff stat." — **P1** (the console and the card's fields:
+    `repo`/`branch`/`commits`/`file_count`/`shortstat` for a push,
+    `repo`/`head`/`base`/`title` for a pull request).
+  - "Because Passdesk's secret scan runs before the hold, every card the
+    approver sees has already passed it." — **S5** + **P1** (the scan runs
+    before the approval card is built; a push that fails it is denied and
+    never reaches a person, so the card never shows a failed scan).
+  - "An optional webhook can post the same summary to Slack, Discord or ntfy,
+    so the approver doesn't have to watch the terminal." — **P1**. Makes no
+    claim about what the notification does or doesn't redact (open issue,
+    HANDOVER item 9).
+  - "One decision, approve or decline, goes on the audit record together with
+    the approver's name; a card nobody decides on simply expires." — **P1**
+    (decision + approver's name on the audit record) + **S7** (the audit
+    record itself).
+
 ### 6. Availability (`Availability.tsx`)
 - "Works today" list — **S8**, the full list; the "Jira (read your assigned
   issues)" entry — **S8**.
