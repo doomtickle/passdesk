@@ -41,8 +41,8 @@ Phantom Labs team found that Codex used an attacker-crafted GitHub branch
 name, unsanitized, in a shell command during its container setup. That let
 an attacker run commands inside the container and steal the GitHub OAuth
 token Codex held there. It was fixed before the write-up was published.
-([siliconangle.com](https://siliconangle.com/2026/03/30/openai-codex-vulnerability-enabled-github-token-theft-via-command-injection-report-finds/)
-<!-- OWNER: verify against BeyondTrust's Phantom Labs post; not reachable from the factory -->)
+([siliconangle.com](https://siliconangle.com/2026/03/30/openai-codex-vulnerability-enabled-github-token-theft-via-command-injection-report-finds/))
+<!-- OWNER: verify attribution and "fixed before publication" against BeyondTrust's Phantom Labs post; not reachable from the factory -->
 
 **Comment and Control, April 2026.** Aonan Guan, with Johns Hopkins
 University's Zhengyu Liu and Gavin Zhong, showed that PR titles, issue
