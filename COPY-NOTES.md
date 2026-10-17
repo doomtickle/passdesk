@@ -91,6 +91,11 @@ access" or "private beta" and dated "early 2027".
 ### Meta and header (`index.html`, `Header.tsx`)
 - Title and Open Graph copy restate the hero; same backing as the hero lede.
 - Wordmark, nav and "Request early access" button are structural.
+- `og:image` (`public/og.svg`, rendered to `public/og.png`): the key mark
+  (`KeyMark.tsx`) and wordmark "Passdesk" restate the header; the eyebrow
+  "Open source · runs on your machine" restates the hero eyebrow (**S11** +
+  **S12**); the headline restates the hero title verbatim — no new claim.
+  `og:image:alt` states the same headline; not a separate claim.
 
 ### 1. Hero (`Hero.tsx`, `DeskDemo.tsx`)
 - "Let your agents work. Keep the keys." — positioning line, not a fact.

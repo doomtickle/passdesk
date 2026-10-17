@@ -102,6 +102,27 @@ to be launch-ready, run `npm run build:preview`, which sets
 `PASSDESK_ALLOW_UNCONFIGURED=1`; it builds anyway and prints the same list as a
 warning.
 
+## Open Graph image
+
+`public/og.svg` (1200×630) is the source for `public/og.png`, the `og:image`
+referenced from `index.html`. It reuses the site's own tokens (the `--stage`
+gradient, `--brass` / `--brass-text`, `--paper`) and the key mark from
+`src/components/KeyMark.tsx`; the headline text is copied verbatim from
+`src/components/Hero.tsx`.
+
+The site's fonts ship only as `.woff2` (see "Fonts" above), which most SVG
+rasterisers can't read without the font files handed to them explicitly.
+Regenerate the PNG with a rasteriser that accepts font files directly, for
+example [resvg](https://github.com/RazrFalcon/resvg) via its CLI package:
+
+```bash
+npx @resvg/resvg-cli --use-fonts-dir node_modules/@fontsource-variable/schibsted-grotesk/files \
+  --resources-dir public public/og.svg public/og.png
+```
+
+Re-check the result's dimensions are exactly 1200×630 and open the PNG to
+confirm the text isn't clipped before committing it.
+
 ## Hero demo
 
 `src/components/DeskDemo.tsx` animates requests going through the desk. The slips
