@@ -184,8 +184,8 @@ export function UnderTheHood() {
           <div className="card card--glass hood__fact">
             <p className="eyebrow">Credentials</p>
             <p>
-              Your GitHub token is attached by the sandbox's proxy. Passdesk's own process never reads it, and no
-              agent sandbox receives it.
+              Your GitHub token stays on your machine: the sandbox's proxy attaches it to the gateway's requests.
+              The gateway's own process never reads it, no agent sandbox receives it, and nothing is sent to us.
             </p>
           </div>
           <div className="card card--glass hood__fact">

@@ -51,6 +51,13 @@ lives in `src/components/`; the file for each section is named below.
 - **S11** — Implementation facts from the public repository: Apache-2.0,
   standard-library Python only, runs on the user's own machine, works
   with Claude Code today.
+- **S12** — Self-hosted, nothing phones home: the gateway and its sandbox
+  run on the user's machine; credentials, code and the audit record stay
+  there; no Passdesk-operated service receives any of them. The built site
+  makes no runtime request except the waitlist form's POST (README,
+  "Sign-up form"). Copy that could read as Passdesk the company holding a
+  user's credentials is not allowed; "the desk" always means the user's
+  own gateway.
 
 ## Passdesk Pro (private beta, P1–P2)
 
@@ -110,7 +117,10 @@ access" or "private beta" and dated "early 2027".
 - "We'll only email you about Passdesk early access." — a commitment about
   the sign-up list, not a product claim.
 
-- Eyebrow "Open source gateway · Apache-2.0" and the proof line under
+- Lede: "a gateway that runs on your own machine", "credentials, which
+  never leave it", "and neither do we" — **S12** (also in the meta and
+  Open Graph descriptions).
+- Eyebrow "Open source · runs on your machine" (**S11** + **S12**) and the proof line under
   the form ("Runs on your machine", "Standard-library Python, open
   source", "Works with Claude Code today") — **S11** (the last also
   **S10**). The brass second line of the headline is styling, not a claim.
@@ -119,7 +129,8 @@ access" or "private beta" and dated "early 2027".
 - Body copy describes the baseline risk of handing an agent a token, not
   Passdesk.
 - Two cards; the "With Passdesk" card:
-  - "Passdesk, which uses them on the agent's behalf" — **S1**.
+  - "You do. They stay on your machine, in the gateway's own sandbox, and
+    never reach the agent or us" — **S1** + **S12**.
   - "Only to Passdesk; apart from its model provider, it has no other way
     out" — **S2**.
   - "Only the tools you approved, within your rules" — **S3** + **S4**.
@@ -132,7 +143,8 @@ access" or "private beta" and dated "early 2027".
 ### 3. How it works (`HowItWorks.tsx`)
 - Step 1, "its own Passdesk token, never your credentials" — **S3** + **S1**.
 - Step 2, repos/branches/packages/websites, "declined, with a reason" — **S4** (+ **S3** for the reason).
-- Step 3, "It uses its own credentials, so they never reach the agent" — **S1**; "npm
+- Step 3, "from its own sandbox on your machine, with your credentials, so
+  they never reach the agent and never leave your machine" — **S1** + **S12**; "npm
   packages are pinned to your lockfile and hash-checked; Python wheels must be
   pinned to exact versions with hashes. No install scripts run" — **S6**.
 - Step 4, "Pushes, pull requests and prompts sent to Gemini are scanned for
@@ -185,9 +197,10 @@ access" or "private beta" and dated "early 2027".
   denial — **S4**; the `jira.get_issue` line is an illustrative example of
   a Jira read call (**S8** Jira, read-only) — action name illustrative; no
   line carries a credential — **S1**.
-- The three facts under the files: "Credentials" (token attached by the
-  sandbox's proxy; Passdesk's process never reads it; no agent sandbox
-  receives it) — **S1**; "Supply chain" (lockfile-pinned, hash-verified
+- The three facts under the files: "Credentials" (token stays on your
+  machine; attached by the sandbox's proxy; the gateway's process never
+  reads it; no agent sandbox receives it; nothing is sent to us) — **S1** +
+  **S12**; "Supply chain" (lockfile-pinned, hash-verified
   tarballs and wheels; nothing from the workspace executed) — **S6**;
   "Guardrails" (draft PRs by default, no force-push or branch deletion,
   Jira read-only) — **S9**.
@@ -215,7 +228,10 @@ access" or "private beta" and dated "early 2027".
   "coming" in the Pro Solo column; nowhere else lists roadmap items.
 
 ### 7. FAQ (`Faq.tsx`)
-- GitHub token, "Passdesk's sandbox holds the credentials" — **S1** + **S3**.
+- GitHub token, "The gateway's own sandbox on your machine holds the
+  credentials" — **S1** + **S3** + **S12**.
+- "Do you ever see my keys, my code or my record?" — **S12** in full,
+  including "this website makes no request except the early-access form".
 - Not allowed — **S4** + **S7**.
 - Going around Passdesk, "All of an agent's tool traffic goes through
   Passdesk; apart from its model provider, it has no other way out" —
@@ -229,7 +245,9 @@ access" or "private beta" and dated "early 2027".
 - When can I try it — no product claim.
 
 ### 8. Closing and footer (`Closing.tsx`, `Footer.tsx`)
-- "Passdesk holds the keys" — **S1**; "keeps the record" — **S7**.
+- "The keys stay on your machine" — **S12**; "The record stays with you"
+  and "keeps the record" — **S7** + **S12**; "keeps them out of your keys"
+  — **S1**.
 - "© 2026 Passdesk" and the contact address (`CONTACT_EMAIL` in
   `src/config.ts`, a placeholder to replace before launch) — not claims.
 

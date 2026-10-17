@@ -9,14 +9,15 @@ export function Hero() {
     <section id="top" className="hero section--dark on-dark" aria-labelledby="hero-title">
       <div className="container grid hero__inner">
         <div className="hero__copy">
-          <p className="eyebrow eyebrow--brass">Open source gateway · Apache-2.0</p>
+          <p className="eyebrow eyebrow--brass">Open source · runs on your machine</p>
           <h1 id="hero-title" className="hero__title">
             Let your agents work. <span className="hero__accent">Keep the keys.</span>
           </h1>
           <p className="hero__lede">
-            Passdesk is the front desk for your AI coding agents. They push code, open pull requests and
-            pull in packages, and Passdesk does each job with its own credentials, by your rules, on the
-            record. Your agents never hold your tokens.
+            Passdesk is the front desk for your AI coding agents: a gateway that runs on your own machine.
+            Agents push code, open pull requests and pull in packages; the desk does each job with your
+            credentials, which never leave it, by your rules, on the record. Your agents never hold your
+            tokens, and neither do we.
           </p>
           <WaitlistForm source="hero" />
           <ul className="hero__proof" aria-label="At a glance">

@@ -3,7 +3,11 @@ import './Faq.css';
 const QUESTIONS = [
   {
     q: 'Does my agent ever see my GitHub token?',
-    a: "No. Passdesk's sandbox holds the credentials and makes the call itself. The agent only holds its own Passdesk token, which works only for the tools you approved.",
+    a: "No. The gateway's own sandbox on your machine holds the credentials and makes the call itself. The agent only holds its own Passdesk token, which works only for the tools you approved.",
+  },
+  {
+    q: 'Do you ever see my keys, my code or my record?',
+    a: 'No. Passdesk is software you run on your own machine. Your credentials, your code and your audit record stay there. Nothing is sent to us; this website makes no request except the early-access form you choose to submit.',
   },
   {
     q: "What happens when an agent asks for something it isn't allowed to do?",

@@ -5,7 +5,7 @@ const ROWS = [
   {
     label: 'Who holds the credentials',
     without: 'The agent',
-    with: "Passdesk, which uses them on the agent's behalf",
+    with: "You do. They stay on your machine, in the gateway's own sandbox, and never reach the agent or us",
   },
   {
     label: 'Where the agent can connect',

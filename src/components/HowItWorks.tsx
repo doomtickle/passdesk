@@ -11,7 +11,7 @@ const STEPS = [
   },
   {
     title: 'Passdesk does the job',
-    body: 'It uses its own credentials, so they never reach the agent. npm packages are pinned to your lockfile and hash-checked; Python wheels must be pinned to exact versions with hashes. No install scripts run in Passdesk.',
+    body: 'It makes the call from its own sandbox on your machine, with your credentials, so they never reach the agent and never leave your machine. npm packages are pinned to your lockfile and hash-checked; Python wheels must be pinned to exact versions with hashes. No install scripts run in Passdesk.',
   },
   {
     title: 'Passdesk checks the result and writes it down',
