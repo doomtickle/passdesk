@@ -14,6 +14,7 @@
   --mist: rgba(246, 247, 243, 0.84);
   --on-dark-muted: rgba(246, 247, 243, 0.72);
   --approve: #1f7a58;
+  --approve-strong: #145940;
   --decline: #a3312a;
   --approve-light: #7fe0c2;
   --decline-light: #ffb0a4;
@@ -31,7 +32,9 @@
   --fg: #0b211a;
   --fg-muted: var(--slate);
   --rule: #dce4de;
-  --accent-text: var(--approve);
+  /* --approve-strong, not --approve: --approve is only 4.9:1 on paper,
+     below the 7:1 body-copy floor. --approve-strong reaches 7.7:1. */
+  --accent-text: var(--approve-strong);
 
   /* Type */
   --font-sans: 'Schibsted Grotesk Variable', 'Schibsted Grotesk', ui-sans-serif, system-ui, -apple-system,

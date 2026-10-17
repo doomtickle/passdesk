@@ -40,9 +40,10 @@ not Khan, used the still-valid npm token to publish an unauthorized
 Phantom Labs team found that Codex used an attacker-crafted GitHub branch
 name, unsanitized, in a shell command during its container setup. That let
 an attacker run commands inside the container and steal the GitHub OAuth
-token Codex held there. It was fixed before the write-up was published.
-([siliconangle.com](https://siliconangle.com/2026/03/30/openai-codex-vulnerability-enabled-github-token-theft-via-command-injection-report-finds/))
-<!-- OWNER: verify attribution and "fixed before publication" against BeyondTrust's Phantom Labs post; not reachable from the factory -->
+token Codex held there. OpenAI patched it on 5 February 2026, before the
+report was published.
+([siliconangle.com](https://siliconangle.com/2026/03/30/openai-codex-vulnerability-enabled-github-token-theft-via-command-injection-report-finds/),
+[thehackernews.com](https://thehackernews.com/2026/03/openai-patches-chatgpt-data.html))
 
 **Comment and Control, April 2026.** Aonan Guan, with Johns Hopkins
 University's Zhengyu Liu and Gavin Zhong, showed that PR titles, issue

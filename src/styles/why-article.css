@@ -1,0 +1,64 @@
+.why-page__inner {
+  display: grid;
+  gap: 32px;
+  max-width: var(--measure);
+  margin-inline: auto;
+}
+
+.why-page__nav {
+  font-family: var(--font-mono);
+  font-size: var(--text-14);
+}
+
+.why-page__nav a {
+  color: var(--accent-text);
+  text-decoration: none;
+}
+
+.why-page__nav a:hover {
+  text-decoration: underline;
+}
+
+.why-page__nav--bottom {
+  padding-top: 16px;
+  border-top: 1px solid var(--rule);
+}
+
+.article {
+  display: grid;
+  gap: 24px;
+}
+
+.article h1 {
+  font-size: var(--text-h2);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  max-width: none;
+}
+
+.article h2 {
+  margin-top: 16px;
+  max-width: none;
+}
+
+.article p {
+  font-size: var(--text-18);
+  line-height: 1.7;
+  color: var(--fg);
+  max-width: none;
+}
+
+.article a {
+  color: var(--accent-text);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+/* External citations: a small arrow marks them as leaving the site, in
+   addition to the sr-only "(opens in new tab)" suffix in the markup. */
+.article .external-link::after {
+  content: ' ↗' / '';
+  display: inline-block;
+}

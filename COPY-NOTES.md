@@ -298,6 +298,24 @@ access" or "private beta" and dated "early 2027".
   — **S1**.
 - "© 2026 Passdesk" and the contact address (`CONTACT_EMAIL` in
   `src/config.ts`, a placeholder to replace before launch) — not claims.
+- The footer's "Why Passdesk" link to `/why/` is structural, like the other
+  nav links in the same list.
+
+### 9. Why page (`why/index.html`, `docs/launch-post.md`)
+- The page is the launch article, built at compile time from
+  `docs/launch-post.md` (the single source; see `src/lib/launchPost.ts` and
+  the plugin in `vite.config.ts`). The article's own product claims: **S1**,
+  **S3**, **S4**, **S5**, **S7**, **S10**, **P1**, **P2** (same backing as
+  the matching claims elsewhere on this list; see the article's prose for
+  the exact sentences). Its account of the four public write-ups it cites —
+  what each incident was, who found it, when — describes those write-ups,
+  not Passdesk, and carries no claim to map.
+- `<title>` and the meta/Open Graph description restate the article's
+  framing; "credentials that never reach the agent" — **S1**; "on the
+  record" — **S7**. `og:image` reuses `public/og.png`; same backing as the
+  homepage's Open Graph image (meta and header, above).
+- The "← Passdesk" / "← Back to passdesk.dev" links back to the homepage
+  are structural, not claims.
 
 ## Things deliberately left out
 - No "zero trust", "military-grade", padlock or shield imagery, robot
