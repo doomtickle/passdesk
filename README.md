@@ -110,14 +110,17 @@ gradient, `--brass` / `--brass-text`, `--paper`) and the key mark from
 `src/components/KeyMark.tsx`; the headline text is copied verbatim from
 `src/components/Hero.tsx`.
 
-The site's fonts ship only as `.woff2` (see "Fonts" above), which most SVG
-rasterisers can't read without the font files handed to them explicitly.
-Regenerate the PNG with a rasteriser that accepts font files directly, for
-example [resvg](https://github.com/RazrFalcon/resvg) via its CLI package:
+[resvg](https://github.com/RazrFalcon/resvg) (via the `@resvg/resvg-wasm`
+devDependency) renders the PNG, but it reads TTF/OTF sfnt data, not WOFF or
+WOFF2 — and the site's fonts ship as `@fontsource` WOFF2 (the variable
+Schibsted Grotesk) or WOFF/WOFF2 (JetBrains Mono, and the static
+`@fontsource/schibsted-grotesk` devDependency used only for this image, for
+the two static weights the headline needs). `scripts/og.mjs` decodes the
+needed `.woff` files (WOFF1 is plain zlib) to in-memory TTF buffers and hands
+them to resvg directly; it never touches WOFF2. Regenerate the PNG with:
 
 ```bash
-npx @resvg/resvg-cli --use-fonts-dir node_modules/@fontsource-variable/schibsted-grotesk/files \
-  --resources-dir public public/og.svg public/og.png
+npm run og
 ```
 
 Re-check the result's dimensions are exactly 1200×630 and open the PNG to
