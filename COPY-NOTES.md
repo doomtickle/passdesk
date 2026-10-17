@@ -145,6 +145,21 @@ access" or "private beta" and dated "early 2027".
 - Body copy "leaves you no record of what the agent asked for" is the
   baseline; the contrast it sets up is **S7**.
 
+### 2b. Why this exists (`WhyExists.tsx`)
+- A homepage summary of the Why page (#9 below), linking to `/why/`.
+- "Four security write-ups from early 2026... described agents leaking
+  credentials after reading something they didn't control" and the named
+  incidents (claude-code-action, Cline's publish pipeline, OpenAI Codex,
+  three CI-hosted agents) describe those write-ups, not Passdesk, and carry
+  no claim to map — same as the Why page's own account of them.
+- "Three of the four ran inside GitHub Actions, a different environment
+  than the one Passdesk runs in, so Passdesk's design doesn't answer all of
+  them" — **S10** (Passdesk runs on a developer's own machine, not in CI).
+- "The agent never holds the credential" — **S1**; "every push, pull
+  request and prompt is scanned for secrets before it leaves" — **S5**.
+- The link to `/why/` ("Read the full walkthrough of the four incidents")
+  is structural, like the Footer's "Why Passdesk" link.
+
 ### 3. How it works (`HowItWorks.tsx`)
 - Step 1, "its own Passdesk token, never your credentials" — **S3** + **S1**.
 - Step 2, repos/branches/packages/websites, "declined, with a reason" — **S4** (+ **S3** for the reason).
