@@ -2,16 +2,15 @@ import './Availability.css';
 
 const TODAY = [
   'GitHub (fetch, push, open pull requests)',
-  'npm',
-  'PyPI',
-  'Web fetch',
+  'Packages from npm and PyPI',
+  'Web pages from hosts you allow',
 ];
 
 const TODAY_NOTE =
   "Pull requests open as drafts by default; force-pushes and branch deletion aren't possible.";
 
 const NEXT = [
-  'Any MCP client, outside Docker sandboxes',
+  'Any MCP client (Codex, Cursor and others), outside Docker sandboxes',
   'Per-agent rules, not just a shared tool grant',
   'Tamper-evident logs you can stream to your SIEM',
   'Short-lived GitHub tokens scoped to one repo',
@@ -35,6 +34,11 @@ export function Availability() {
                 <li key={item}>{item}</li>
               ))}
             </ul>
+            <p className="availability__flex">
+              <strong>Only what you turn on.</strong> Each agent gets the tools you grant it and nothing else.
+              Start with GitHub and your package registries, and add an integration when an agent needs one: for
+              example, reading issues from Jira, or asking Gemini. Anything you don't set up stays off.
+            </p>
             <p className="availability__note">{TODAY_NOTE}</p>
           </div>
           <div className="availability__group">

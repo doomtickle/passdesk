@@ -39,9 +39,11 @@ lives in `src/components/`; the file for each section is named below.
 - **S8** — Tools available today: GitHub (fetch, push, open PR as a
   draft), npm (download only), PyPI (download only), web fetch, Jira
   (read-only, limited to issues assigned to the calling agent), Gemini.
-  The page names only GitHub, npm, PyPI and web fetch: Jira and Gemini
-  are shipped but deliberately not named in the copy (owner, 18 Oct 2026),
-  because integrations are for users to add; examples belong in the docs.
+  The page lists GitHub, npm, PyPI and web fetch as what works today, and
+  names Jira and Gemini only as examples of optional integrations (owner,
+  18 Oct 2026): the point is that users choose what to turn on, not a
+  support list. "Add your own integration" is not claimed until a
+  supported plugin tool hook ships (doomtickle/passdesk-ops#83).
 - **S9** — Built-in guardrails: pull requests open as drafts by default;
   force-pushes and branch deletion aren't possible through Passdesk's
   git tools; Jira access is read-only.
@@ -285,11 +287,22 @@ access" or "private beta" and dated "early 2027".
     record itself).
 
 ### 6. Availability (`Availability.tsx`)
-- "Works today" list (GitHub, npm, PyPI, web fetch) — **S8**, the generic
-  tools; Jira and Gemini are left off on purpose (see S8).
+- "Works today" list: "GitHub (fetch, push, open pull requests)",
+  "Packages from npm and PyPI", "Web pages from hosts you allow" — **S8**
+  (+ **S4** web host allowlist). Jira and Gemini are left off the list on
+  purpose (see S8).
+- "Only what you turn on." paragraph: "Each agent gets the tools you grant
+  it and nothing else" — **S3** (per-agent tool grant); "Start with GitHub
+  and your package registries, and add an integration when an agent needs
+  one: for example, reading issues from Jira, or asking Gemini" — **S8**
+  (Jira read-only, Gemini) + **S1** (their credentials are delivered only
+  to Passdesk); "Anything you don't set up stays off" — **S3** (an
+  ungranted tool is denied) + **S8** (an integration without its
+  credential returns a denial).
 - "Works today" note, "Pull requests open as drafts by default;
   force-pushes and branch deletion aren't possible." — **S9**.
-- "Coming soon" list — **R1** ("Any MCP client, outside Docker sandboxes"),
+- "Coming soon" list — **R1** ("Any MCP client (Codex, Cursor and others),
+  outside Docker sandboxes"),
   **R6** (per-agent rules), **R2**, **R3**, **R4**, **R5**, in that order.
   The FAQ restates R1, and the Pricing section marks R6 and R2 as
   "coming" in the Pro Solo column; nowhere else lists roadmap items.

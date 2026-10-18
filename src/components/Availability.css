@@ -68,6 +68,11 @@
   color: #b8831e;
 }
 
+.availability__flex {
+  font-size: var(--text-16);
+  line-height: 1.5;
+}
+
 .availability__note {
   font-size: var(--text-16);
   line-height: 1.45;
