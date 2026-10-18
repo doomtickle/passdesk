@@ -15,7 +15,7 @@ const STEPS = [
   },
   {
     title: 'Passdesk checks the result and writes it down',
-    body: 'Pushes, pull requests and prompts sent to Gemini are scanned for common secret formats, and blocked if one turns up. Text that comes back from the web, Jira or Gemini is cleaned and marked as untrusted. Every call goes on the record.',
+    body: 'Pushes and pull requests are scanned for common secret formats, and blocked if one turns up. Text that comes back from the web or another service is cleaned and marked as untrusted. Every call goes on the record.',
   },
 ];
 

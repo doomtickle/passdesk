@@ -3,7 +3,7 @@
 
 export type Decision = 'Approved' | 'Declined';
 
-export const RACK_KEYS = ['GitHub', 'npm', 'PyPI', 'Jira', 'Web', 'Gemini'] as const;
+export const RACK_KEYS = ['GitHub', 'npm', 'PyPI', 'Web'] as const;
 
 export type RackKey = (typeof RACK_KEYS)[number];
 

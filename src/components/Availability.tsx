@@ -5,12 +5,10 @@ const TODAY = [
   'npm',
   'PyPI',
   'Web fetch',
-  'Jira (read your assigned issues)',
-  'Gemini',
 ];
 
 const TODAY_NOTE =
-  "Pull requests open as drafts by default; force-pushes and branch deletion aren't possible; Jira is read-only.";
+  "Pull requests open as drafts by default; force-pushes and branch deletion aren't possible.";
 
 const NEXT = [
   'Any MCP client, outside Docker sandboxes',
