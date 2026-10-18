@@ -67,7 +67,7 @@ const RECORD_LINES: { text: string; decision: string }[] = [
     decision: 'decision=DENY  reason="protected branch"',
   },
   {
-    text: '2026-03-04T09:15:40Z  agent=triage-bot     tool=jira.get_issue  args={issue: "OPS-204"}                                           ',
+    text: '2026-03-04T09:15:40Z  agent=triage-bot     tool=web.fetch       args={url: "https://docs.acme.internal/deploy"}                   ',
     decision: 'decision=ALLOW',
   },
   {
@@ -199,7 +199,7 @@ export function UnderTheHood() {
             <p className="eyebrow">Guardrails</p>
             <p>
               Pull requests open as drafts by default. Force-pushes and branch deletion aren't possible through
-              Passdesk. Jira is read-only.
+              Passdesk.
             </p>
           </div>
         </div>

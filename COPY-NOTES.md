@@ -39,6 +39,11 @@ lives in `src/components/`; the file for each section is named below.
 - **S8** — Tools available today: GitHub (fetch, push, open PR as a
   draft), npm (download only), PyPI (download only), web fetch, Jira
   (read-only, limited to issues assigned to the calling agent), Gemini.
+  The page lists GitHub, npm, PyPI and web fetch as what works today, and
+  names Jira and Gemini only as examples of optional integrations (owner,
+  18 Oct 2026): the point is that users choose what to turn on, not a
+  support list. "Add your own integration" is not claimed until a
+  supported plugin tool hook ships (doomtickle/passdesk-ops#83).
 - **S9** — Built-in guardrails: pull requests open as drafts by default;
   force-pushes and branch deletion aren't possible through Passdesk's
   git tools; Jira access is read-only.
@@ -107,7 +112,7 @@ access" or "private beta" and dated "early 2027".
 - Desk illustration (captioned "Illustration"; slips and record lines in
   `deskScript.ts`): "No keys" chip and "Keys stay at the desk" (the matching
   key lights up on the rack but never moves to the agent) — **S1**; key tags
-  GitHub, npm, PyPI, Jira, Web, Gemini — **S8**. Slips:
+  GitHub, npm, PyPI, Web — **S8**. Slips:
   - "Push branch agent/bump-deps to acme/web" and "Open a pull request: Bump
     deps", approved — **S8** (GitHub push, open PR) within **S4**.
   - "Push branch agent/fix-ci to acme/web", declined with "A secret turned up
@@ -168,10 +173,10 @@ access" or "private beta" and dated "early 2027".
   they never reach the agent and never leave your machine" — **S1** + **S12**; "npm
   packages are pinned to your lockfile and hash-checked; Python wheels must be
   pinned to exact versions with hashes. No install scripts run" — **S6**.
-- Step 4, "Pushes, pull requests and prompts sent to Gemini are scanned for
-  common secret formats, and blocked if one turns up" — **S5**; "Text that
-  comes back from the web, Jira or Gemini is cleaned and marked as
-  untrusted" — **S5**; "Every call goes on the record" — **S7**.
+- Step 4, "Pushes and pull requests are scanned for common secret formats,
+  and blocked if one turns up" — **S5**; "Text that comes back from the web
+  or another service is cleaned and marked as untrusted" — **S5** (web,
+  integration tools and errors from remote services); "Every call goes on the record" — **S7**.
 - "When the answer is no" example, drawn as the exchange the agent sees:
   the tool call (`git_push repo=acme/web branch=main`) and the gateway's
   answer, which uses the real refusal prefix ("DENIED by broker policy:")
@@ -183,9 +188,8 @@ access" or "private beta" and dated "early 2027".
 
 ### 4. Audiences (`Audiences.tsx`)
 - "For engineering": the tool list ("fetch and push code, open pull
-  requests, pull packages from npm and PyPI, read the web, read their
-  assigned Jira issues and use Gemini") — **S8**; Gemini is named without a
-  specific action because S8 lists it only by name; "hears why and can take
+  requests, pull packages from npm and PyPI, and read the web") — **S8**;
+  "hears why and can take
   the allowed route" — **S4** (reason and hint on a denial).
 - "For security": "Approve each agent's tools once, in a config file that's
   reviewed like any other code change" — **S3**. Per-agent grant files
@@ -215,16 +219,17 @@ access" or "private beta" and dated "early 2027".
   **S7** (abridged; the full field list — reason, result excerpt — is in
   S7 above). Sample lines (captioned "illustrative, not captured output"):
   the "secret detected in diff" denial — **S5**; the "protected branch"
-  denial — **S4**; the `jira.get_issue` line is an illustrative example of
-  a Jira read call (**S8** Jira, read-only) — action name illustrative; no
-  line carries a credential — **S1**.
+  denial — **S4**; the `web.fetch` line fetches from `docs.acme.internal`,
+  a host in the example's `web_fetch.hosts` — **S8** (web fetch) within
+  **S4** (web host allowlist); action name illustrative; no line carries a
+  credential — **S1**.
 - The three facts under the files: "Credentials" (token stays on your
   machine; attached by the sandbox's proxy; the gateway's process never
   reads it; no agent sandbox receives it; nothing is sent to us) — **S1** +
   **S12**; "Supply chain" (lockfile-pinned, hash-verified
   tarballs and wheels; nothing from the workspace executed) — **S6**;
-  "Guardrails" (draft PRs by default, no force-push or branch deletion,
-  Jira read-only) — **S9**.
+  "Guardrails" (draft PRs by default, no force-push or branch deletion)
+  — **S9**.
 
 ### 5b. Pricing (`Pricing.tsx`)
 - "The gateway is free" and the Free column — **S11** (license) plus
@@ -282,11 +287,22 @@ access" or "private beta" and dated "early 2027".
     record itself).
 
 ### 6. Availability (`Availability.tsx`)
-- "Works today" list — **S8**, the full list; the "Jira (read your assigned
-  issues)" entry — **S8**.
-- "Works today" note, "Pull requests open as drafts; force-pushes and
-  branch deletion aren't possible; Jira is read-only." — **S9**.
-- "Coming soon" list — **R1** ("Any MCP client, outside Docker sandboxes"),
+- "Works today" list: "GitHub (fetch, push, open pull requests)",
+  "Packages from npm and PyPI", "Web pages from hosts you allow" — **S8**
+  (+ **S4** web host allowlist). Jira and Gemini are left off the list on
+  purpose (see S8).
+- "Only what you turn on." paragraph: "Each agent gets the tools you grant
+  it and nothing else" — **S3** (per-agent tool grant); "Start with GitHub
+  and your package registries, and add an integration when an agent needs
+  one: for example, reading issues from Jira, or asking Gemini" — **S8**
+  (Jira read-only, Gemini) + **S1** (their credentials are delivered only
+  to Passdesk); "Anything you don't set up stays off" — **S3** (an
+  ungranted tool is denied) + **S8** (an integration without its
+  credential returns a denial).
+- "Works today" note, "Pull requests open as drafts by default;
+  force-pushes and branch deletion aren't possible." — **S9**.
+- "Coming soon" list — **R1** ("Any MCP client (Codex, Cursor and others),
+  outside Docker sandboxes"),
   **R6** (per-agent rules), **R2**, **R3**, **R4**, **R5**, in that order.
   The FAQ restates R1, and the Pricing section marks R6 and R2 as
   "coming" in the Pro Solo column; nowhere else lists roadmap items.
@@ -299,7 +315,7 @@ access" or "private beta" and dated "early 2027".
 - Going around Passdesk, "All of an agent's tool traffic goes through
   Passdesk; apart from its model provider, it has no other way out" —
   **S2**.
-- Secret in a push or prompt — **S5**, including the list of key/token
+- Secret in a push or pull request — **S5**, including the list of key/token
   formats and the "safety net, not a full data-loss-prevention tool" line.
 - "What do I need to run it?" — **S10**.
 - "Will it work with Claude Code, Codex or Cursor?" — **R1**: today's
@@ -337,7 +353,7 @@ access" or "private beta" and dated "early 2027".
   imagery, customer logos, testimonials, quotes, "trusted by", or invented
   numbers or stats. The brand mark is a key, not a padlock.
 - "Tools", never "skills".
-- GitHub, npm, PyPI, Jira and Gemini appear only as plain text, never as
+- GitHub, npm and PyPI appear only as plain text, never as
   logos, and never phrased as endorsements.
 - No fake CLI or product screens: the refusal example shows only a tool
   call and the gateway's denial text in the format the gateway really

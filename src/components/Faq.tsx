@@ -18,8 +18,8 @@ const QUESTIONS = [
     a: "All of an agent's tool traffic goes through Passdesk; apart from its model provider, it has no other way out.",
   },
   {
-    q: 'What if a secret ends up in a push or a prompt?',
-    a: "Pushes, pull requests and prompts sent to Gemini are scanned for common secret formats, and blocked if one turns up. Text that comes back from the web, Jira or Gemini is cleaned and marked as untrusted. It looks for known key and token formats (GitHub, AWS, Anthropic, OpenAI, Slack, Google, private keys, password assignments). It's a safety net, not a full data-loss-prevention tool.",
+    q: 'What if a secret ends up in a push or a pull request?',
+    a: "Pushes and pull requests are scanned for common secret formats, and blocked if one turns up. Text that comes back from the web or another service is cleaned and marked as untrusted. It looks for known key and token formats (GitHub, AWS, Anthropic, OpenAI, Slack, Google, private keys, password assignments). It's a safety net, not a full data-loss-prevention tool.",
   },
   {
     q: 'What do I need to run it?',

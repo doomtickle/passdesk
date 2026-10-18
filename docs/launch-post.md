@@ -86,13 +86,13 @@ own container, which Passdesk doesn't run.
 
 Where Passdesk's design does apply straightforwardly is the piece common
 to all four write-ups: an agent on a developer's machine is working from
-untrusted text — a web page, a Jira ticket, an error message — on its way
-to a push, a pull request, or a package install. Passdesk marks that
-incoming text as untrusted and strips terminal escapes from it. Before any
-push, pull request, or prompt sent to Gemini goes out, Passdesk scans it
-for common key and token formats — GitHub, AWS, Anthropic, OpenAI, Slack,
-Google, private keys, password assignments — and blocks the call if one
-turns up. That's a safety net, not a full data-loss-prevention tool: it
+untrusted text — a web page, an error message — on its way to a push, a
+pull request, or a package install. Passdesk marks that incoming text as
+untrusted and strips terminal escapes from it. Before any push or pull
+request goes out, Passdesk scans it for common key and token formats —
+GitHub, AWS, Anthropic, OpenAI, Slack, Google, private keys, password
+assignments — and blocks the call if one turns up. That's a safety net,
+not a full data-loss-prevention tool: it
 catches a credential crossing the gateway in that call, not every way one
 could leave. Each agent also only gets the tools its own grant lists; nothing
 else is reachable. Each repo and branch is bounded by a policy file
